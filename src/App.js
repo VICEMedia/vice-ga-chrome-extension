@@ -1,7 +1,7 @@
 /*global chrome*/
 import React, { Component } from 'react';
 import './App.css';
-import vice_tech_logo from './images/vice_tech_logo.png';
+import vice_tech_logo from './images/vicetech-square.svg';
 import google_analytics_icon from './images/google_analytics_icon.png';
 import down_arrow from './images/down_arrow.png';
 import right_arrow from './images/right_arrow.png';
@@ -343,7 +343,7 @@ class App extends React.Component {
               </div>
               <div className='App-title'>
                 <span className="App-Header">VICE Google Analytics Debugger</span><br></br>
-                <a className='App-LearnMore' href="www.vice.com">Learn More</a>
+                <a className='App-LearnMore' href="https://github.com/VICEMedia/vice-ga-chrome-extension">Learn More</a>
               </div>
             </header>
             <div className="App-summary">
