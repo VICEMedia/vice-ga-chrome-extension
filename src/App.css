@@ -1,0 +1,134 @@
+body{
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  width: 450px;
+  /* Add these guys. */
+  min-width: 450px;
+  min-height: 500px;
+}
+.App {
+
+}
+
+.App-logo {
+  float: left;
+  padding-top: 12px;
+  width: 45px;
+}
+
+.App-header {
+  height: 70px;
+  padding: 20px;
+  color: black;
+  background-color: rgb(246, 247, 248);
+  border-bottom: 2px solid rgb(217, 217, 217);
+  font-size: 16px;
+  line-height: 45px;
+  padding-left: 12px;
+  top: 0px;
+  width: 100%;
+}
+
+.App-title {
+  float: left;
+  line-height: normal;
+  margin-left: 10px;
+  padding-top: 15px;
+}
+
+.App-Header{
+  font-size: 14px; font-weight: bold;
+}
+.App-LearnMore{
+  color: rgb(93, 125, 174);
+  font-size: 12px;
+  text-decoration: none;
+}
+.App-summary{
+  font-size: 16px;
+  line-height: 20px;
+  padding: 18px 0px 18px 14px;
+}
+.linebreak{
+  border-top: 1px solid rgb(217, 217, 217);
+  content: "";
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+}
+.App-body {
+  font-size: 12px;
+  padding: 12px;
+  position: relative;
+}
+.trackingHeader{
+  height: 40px;
+}
+.trackingLogo{
+  float: left;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-right: 10px;
+  width: 30px;
+}
+.trackingLabel{
+  font-size: 14px;
+  margin: 0px 0px 4px;
+}
+.trackingId{
+  color: rgb(137, 143, 156);
+  margin: 0px;
+}
+.EventArrow{
+  margin-right: 5px;
+  width: 10px;
+}
+.EventTitle{
+  cursor:pointer;
+  margin: 12px 0px;
+  vertical-align: middle;
+}
+.EventTitle:hover{
+  color: rgb(93, 125, 174);
+  text-decoration: underline;
+}
+.statusAmber{
+  color: orange;
+}
+.statusRed{
+  color: red;
+}
+.customDimensionsSection{
+  margin: 0px 0px 0px 10px;
+}
+.customDimensions{
+  text-align:left;
+  font-size: 1.0em;
+}
+
+.customDimensionClose{
+  display: none;
+}
+.customDimensionLongText{
+  margin: 10px 0px 10px 20px;
+  word-wrap: break-word;
+}
+.showMore{
+  cursor:pointer;
+  color: rgb(93, 125, 174);
+  paddomg-left: 4px;
+  font-weight: bold;
+}
+.showMore:hover{
+  text-decoration: underline;
+}
+
+.cdLabel{
+  font-weight: normal;
+  color: rgb(137, 143, 156);
+}
+.cdValue{
+  font-weight: normal;
+}

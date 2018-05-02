@@ -1,0 +1,19 @@
+{
+	"name": "VICE Google Analytics Debugger",
+	"version": "1.1",
+	"description": "Analyzes Google Analytics network calls.",
+	"manifest_version": 2,
+	"icons": { "128": "images/icon.png"},
+	"background": {
+  	"scripts": ["background.js"],
+  	"persistent": true
+	},
+	"browser_action": {
+		"default_popup": "index.html",
+		"default_icon": "images/icon.png"
+	},
+	"permissions": [
+		"storage", "tabs", "webRequest", "*://*.google-analytics.com/"
+	],
+  "options_page": "options.html"
+}
