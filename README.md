@@ -15,7 +15,8 @@
 1. Open Chrome browser
 2. Load a `vice.com` website, then click on the VICE Icon in the Chrome Extensions
 ![Screenshot 3](./assets/readme-screenshot-3.png)
-3. Look for Google Analytics Network calls ![Screenshot 4](./assets/readme-screenshot-4.png)
+3. Look for Google Analytics Network calls
+![Screenshot 4](./assets/readme-screenshot-4.png)
 
 ### Options
 By default the extension will use generic labels for Custom Dimensions, Custom Metrics, and Content Groups.  
@@ -23,5 +24,7 @@ By default the extension will use generic labels for Custom Dimensions, Custom M
 These generic labels can be updated to reflect the actual GA mappings.
 
 1. Go to the file `public/gaConfg.json` and copy the JSON object
-2. Then right click on the Chrome Extension and select the Options setting ![Screenshot 5](./assets/readme-screenshot-5.png)
-3. Paste the JSON object into the text box and hit save. ![Screenshot 6](./assets/readme-screenshot-6.png)
+2. Then right click on the Chrome Extension and select the Options setting
+![Screenshot 5](./assets/readme-screenshot-5.png)
+3. Paste the JSON object into the text box and hit save.
+![Screenshot 6](./assets/readme-screenshot-6.png)
