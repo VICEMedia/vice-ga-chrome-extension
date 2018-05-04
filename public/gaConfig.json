@@ -26,7 +26,8 @@
 			"cd17":"Web ID",
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
-			"cd20":"Krux Segments"
+			"cd20":"Krux Segments",
+      "cd21":"Campaign"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -86,7 +87,8 @@
 			"cd17":"Web ID",
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
-			"cd20":"Krux Segments"
+			"cd20":"Krux Segments",
+      "cd21":"Campaign"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -146,7 +148,8 @@
 			"cd17":"Web ID",
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
-			"cd20":"Krux Segments"
+			"cd20":"Krux Segments",
+      "cd21":"Campaign"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -206,7 +209,8 @@
 			"cd17":"Web ID",
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
-			"cd20":"Krux Segments"
+			"cd20":"Krux Segments",
+      "cd21":"Campaign",
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -266,7 +270,8 @@
 			"cd17":"Web ID",
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
-			"cd20":"Krux Segments"
+			"cd20":"Krux Segments",
+      "cd21":"Campaign"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -326,7 +331,8 @@
 			"cd17":"Web ID",
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
-			"cd20":"Krux Segments"
+			"cd20":"Krux Segments",
+      "cd21":"Campaign"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -386,7 +392,8 @@
 			"cd17":"Web ID",
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
-			"cd20":"Krux Segments"
+			"cd20":"Krux Segments",
+      "cd21":"Campaign"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -446,7 +453,8 @@
 			"cd17":"Web ID",
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
-			"cd20":"Krux Segments"
+			"cd20":"Krux Segments",
+      "cd21":"Campaign"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -506,7 +514,8 @@
 			"cd17":"Web ID",
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
-			"cd20":"Krux Segments"
+			"cd20":"Krux Segments",
+      "cd21":"Campaign"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -566,7 +575,8 @@
 			"cd17":"Web ID",
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
-			"cd20":"Krux Segments"
+			"cd20":"Krux Segments",
+      "cd21":"Campaign"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -626,7 +636,8 @@
 			"cd17":"Web ID",
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
-			"cd20":"Krux Segments"
+			"cd20":"Krux Segments",
+      "cd21":"Campaign"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -686,7 +697,8 @@
 			"cd17":"Web ID",
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
-			"cd20":"Krux Segments"
+			"cd20":"Krux Segments",
+      "cd21":"Campaign"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -746,7 +758,8 @@
 			"cd17":"Web ID",
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
-			"cd20":"Krux Segments"
+			"cd20":"Krux Segments",
+      "cd21":"Campaign"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -778,7 +791,7 @@
 			"cm27":"Homepage Feature Click",
 			"cm28":"Article Video Lede Click"
 		}
-	},	
+	},
 	"UA-599058-151":{
 		"contentGroups" :{
 			"cg1":"Article UID",
@@ -806,7 +819,8 @@
 			"cd17":"Web ID",
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
-			"cd20":"Krux Segments"
+			"cd20":"Krux Segments",
+      "cd21":"Campaign"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -838,7 +852,7 @@
 			"cm27":"Homepage Feature Click",
 			"cm28":"Article Video Lede Click"
 		}
-	},	
+	},
 	"UA-599058-193":{
 		"contentGroups" :{
 			"cg1":"Article UID",
@@ -866,7 +880,8 @@
 			"cd17":"Web ID",
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
-			"cd20":"Krux Segments"
+			"cd20":"Krux Segments",
+      "cd21":"Campaign"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
