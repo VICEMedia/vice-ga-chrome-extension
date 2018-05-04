@@ -10,7 +10,7 @@ export function getCurrentTab(callback) {
 }
 
 export function getGAConfig(callback){
-  chrome.storage.sync.get(['gaConfig'], function(items) {
+  chrome.storage.local.get(['gaConfig'], function(items) {
     callback(items.gaConfig);
   });
 }
