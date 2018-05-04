@@ -1,17 +1,75 @@
 <!DOCTYPE html>
 <html>
-<head><title>My Test Extension Options</title></head>
+<head><title>GA Debug Options Page</title>
+
+<style>
+
+body{
+  width: 800px;
+}
+pre code {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 20px;
+}
+textarea{
+  width: 800px;
+}
+</style>
+</head>
 <body>
+<h1> VICE Google Analytics Chrome Extension Configuration</h1>
 
-Custom Dimensions Configuration File
-<br>
-<textarea id="file_upload" rows="4" cols="50">
+<h3>Overview</h3>
+<p>The page was designed to give the user control over how labels for Custom Dimensions, Content Groups, and Custom Metrics are labeled.</p>
 
-</textarea>
+<p>By default labels are just the literal dimension index (eg Custom Dimension 1).  By updating your options preference you can update the label to reflect the true representation of that label.</p>
 
-<div id="status"></div>
-<button id="save">Save</button>
+<h3>Sample Configuration File</h3>
+<p>Here is an example of how an Configuration File should be structured</p>
+<pre>
+  <code>
+    {
+      "UA-XXXXXX-YY":{
+        "contentGroups" :{
+          "cg1":"Article UID",
+          "cg2":"Topics"
+        },
+        "customDimensions" :{
+          "cd1":"Article UID",
+          "cd2":"Topics"
+        },
+        "customMetrics" :{
+          "cm1":"Video Plays - Manual",
+          "cm2":"Video Plays - AutoPlay"
+        }
+      }
+    }
+  </code>
+</pre>
 
-<script src="options.js"></script>
+<h3>Add your own Configuration File here. </h3>
+<div>
+  <div class='left'>
+    <textarea id="file_upload" rows="10" cols="120" >
+    </textarea>
+
+    <div id="status"></div>
+    <button id="save">Save</button>
+    <script src="options.js"></script>
+  </div>
+  <div class='right'>
+
+
+  </div>
+
+
+</div>
+
+
+
+
+
 </body>
 </html>
