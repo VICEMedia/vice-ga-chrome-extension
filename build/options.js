@@ -1,7 +1,7 @@
 // Saves options to chrome.storage
 function save_options() {
   var configFile = document.getElementById('file_upload').value;
-  chrome.storage.sync.set({
+  chrome.storage.local.set({
     gaConfig: configFile
   }, function() {
     // Update status to let user know options were saved.
@@ -17,7 +17,7 @@ function save_options() {
 // stored in chrome.storage.
 function restore_options() {
   // Use default value color = 'red' and likesColor = true.
-  chrome.storage.sync.get(['gaConfig'], function(items) {
+  chrome.storage.local.get(['gaConfig'], function(items) {
     document.getElementById('file_upload').value = items.gaConfig;
   });
 }
