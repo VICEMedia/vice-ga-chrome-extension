@@ -110,6 +110,71 @@ chrome.webRequest.onErrorOccurred.addListener((details)=> {
 	}
 }, {urls: ["<all_urls>"]});
 
+chrome.webRequest.onBeforeSendHeaders.addListener((details)=> {
+  if(details.url.indexOf('/collect') > -1){
+    const { tabId, requestId } = details;
+    if (!tabStorage.hasOwnProperty(tabId)) {
+        return;
+    }
+
+    const request = tabStorage[tabId].requests[requestId];
+    Object.assign(request, {
+        endTime: details.timeStamp,
+        status: 'onBeforeSendHeaders',
+    });
+
+  //  console.log(tabStorage[tabId].requests[requestId]);
+  }
+}, {urls: ["<all_urls>"]});
+
+chrome.webRequest.onSendHeaders.addListener((details)=> {
+  if(details.url.indexOf('/collect') > -1){
+    const { tabId, requestId } = details;
+    if (!tabStorage.hasOwnProperty(tabId)) {
+        return;
+    }
+
+    const request = tabStorage[tabId].requests[requestId];
+    Object.assign(request, {
+        endTime: details.timeStamp,
+        status: 'onSendHeaders',
+    });
+
+  //  console.log(tabStorage[tabId].requests[requestId]);
+  }
+}, {urls: ["<all_urls>"]});
+chrome.webRequest.onHeadersReceived.addListener((details)=> {
+  if(details.url.indexOf('/collect') > -1){
+    const { tabId, requestId } = details;
+    if (!tabStorage.hasOwnProperty(tabId)) {
+        return;
+    }
+
+    const request = tabStorage[tabId].requests[requestId];
+    Object.assign(request, {
+        endTime: details.timeStamp,
+        status: 'onHeadersReceived',
+    });
+
+  //  console.log(tabStorage[tabId].requests[requestId]);
+  }
+}, {urls: ["<all_urls>"]});
+chrome.webRequest.onResponseStarted.addListener((details)=> {
+  if(details.url.indexOf('/collect') > -1){
+    const { tabId, requestId } = details;
+    if (!tabStorage.hasOwnProperty(tabId)) {
+        return;
+    }
+
+    const request = tabStorage[tabId].requests[requestId];
+    Object.assign(request, {
+        endTime: details.timeStamp,
+        status: 'onResponseStarted',
+    });
+
+  //  console.log(tabStorage[tabId].requests[requestId]);
+  }
+}, {urls: ["<all_urls>"]});
 /////////////////////
 // Message Listener / Handler
 //////////////////////
