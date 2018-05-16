@@ -1,10 +1,10 @@
 {
 	"UA-599058-49":{
 		"contentGroups" :{
-			"cg1":"Article UID",
-			"cg2":"Topics",
-			"cg3":"z_Not Safe For Brands",
-			"cg4":"Not Safe For Work"
+			"cg1":"Category",
+			"cg2":"Author",
+			"cg3":"Publish Day",
+			"cg4":"Publish Month"
 		},
 		"customDimensions" :{
 			"cd1":"Article UID",
@@ -62,10 +62,10 @@
 	},
 	"UA-599058-44":{
 		"contentGroups" :{
-			"cg1":"Article UID",
-			"cg2":"Topics",
-			"cg3":"z_Not Safe For Brands",
-			"cg4":"Not Safe For Work"
+			"cg1":"Category",
+			"cg2":"Author",
+			"cg3":"Publish Day",
+			"cg4":"Publish Month"
 		},
 		"customDimensions" :{
 			"cd1":"Article UID",
@@ -123,10 +123,10 @@
 	},
 	"UA-599058-30":{
 		"contentGroups" :{
-			"cg1":"Article UID",
-			"cg2":"Topics",
-			"cg3":"z_Not Safe For Brands",
-			"cg4":"Not Safe For Work"
+			"cg1":"Category",
+			"cg2":"Author",
+			"cg3":"Publish Day",
+			"cg4":"Publish Month"
 		},
 		"customDimensions" :{
 			"cd1":"Article UID",
@@ -184,10 +184,10 @@
 	},
 	"UA-599058-180":{
 		"contentGroups" :{
-			"cg1":"Article UID",
-			"cg2":"Topics",
-			"cg3":"z_Not Safe For Brands",
-			"cg4":"Not Safe For Work"
+			"cg1":"Category",
+			"cg2":"Author",
+			"cg3":"Publish Day",
+			"cg4":"Publish Month"
 		},
 		"customDimensions" :{
 			"cd1":"Article UID",
@@ -245,10 +245,10 @@
 	},
 	"UA-599058-181":{
 		"contentGroups" :{
-			"cg1":"Article UID",
-			"cg2":"Topics",
-			"cg3":"z_Not Safe For Brands",
-			"cg4":"Not Safe For Work"
+			"cg1":"Category",
+			"cg2":"Author",
+			"cg3":"Publish Day",
+			"cg4":"Publish Month"
 		},
 		"customDimensions" :{
 			"cd1":"Article UID",
@@ -306,10 +306,10 @@
 	},
 	"UA-599058-37":{
 		"contentGroups" :{
-			"cg1":"Article UID",
-			"cg2":"Topics",
-			"cg3":"z_Not Safe For Brands",
-			"cg4":"Not Safe For Work"
+			"cg1":"Category",
+			"cg2":"Author",
+			"cg3":"Publish Day",
+			"cg4":"Publish Month"
 		},
 		"customDimensions" :{
 			"cd1":"Article UID",
@@ -367,10 +367,10 @@
 	},
 	"UA-599058-115":{
 		"contentGroups" :{
-			"cg1":"Article UID",
-			"cg2":"Topics",
-			"cg3":"z_Not Safe For Brands",
-			"cg4":"Not Safe For Work"
+			"cg1":"Category",
+			"cg2":"Author",
+			"cg3":"Publish Day",
+			"cg4":"Publish Month"
 		},
 		"customDimensions" :{
 			"cd1":"Article UID",
@@ -428,10 +428,10 @@
 	},
 	"UA-599058-102":{
 		"contentGroups" :{
-			"cg1":"Article UID",
-			"cg2":"Topics",
-			"cg3":"z_Not Safe For Brands",
-			"cg4":"Not Safe For Work"
+			"cg1":"Category",
+			"cg2":"Author",
+			"cg3":"Publish Day",
+			"cg4":"Publish Month"
 		},
 		"customDimensions" :{
 			"cd1":"Article UID",
@@ -489,10 +489,10 @@
 	},
 	"UA-599058-122":{
 		"contentGroups" :{
-			"cg1":"Article UID",
-			"cg2":"Topics",
-			"cg3":"z_Not Safe For Brands",
-			"cg4":"Not Safe For Work"
+			"cg1":"Category",
+			"cg2":"Author",
+			"cg3":"Publish Day",
+			"cg4":"Publish Month"
 		},
 		"customDimensions" :{
 			"cd1":"Article UID",
@@ -550,10 +550,10 @@
 	},
 	"UA-599058-147":{
 		"contentGroups" :{
-			"cg1":"Article UID",
-			"cg2":"Topics",
-			"cg3":"z_Not Safe For Brands",
-			"cg4":"Not Safe For Work"
+			"cg1":"Category",
+			"cg2":"Author",
+			"cg3":"Publish Day",
+			"cg4":"Publish Month"
 		},
 		"customDimensions" :{
 			"cd1":"Article UID",
@@ -611,10 +611,10 @@
 	},
 	"UA-599058-80":{
 		"contentGroups" :{
-			"cg1":"Article UID",
-			"cg2":"Topics",
-			"cg3":"z_Not Safe For Brands",
-			"cg4":"Not Safe For Work"
+			"cg1":"Category",
+			"cg2":"Author",
+			"cg3":"Publish Day",
+			"cg4":"Publish Month"
 		},
 		"customDimensions" :{
 			"cd1":"Article UID",
@@ -672,10 +672,10 @@
 	},
 	"UA-599058-187":{
 		"contentGroups" :{
-			"cg1":"Article UID",
-			"cg2":"Topics",
-			"cg3":"z_Not Safe For Brands",
-			"cg4":"Not Safe For Work"
+			"cg1":"Category",
+			"cg2":"Author",
+			"cg3":"Publish Day",
+			"cg4":"Publish Month"
 		},
 		"customDimensions" :{
 			"cd1":"Article UID",
@@ -733,10 +733,10 @@
 	},
 	"UA-599058-200":{
 		"contentGroups" :{
-			"cg1":"Article UID",
-			"cg2":"Topics",
-			"cg3":"z_Not Safe For Brands",
-			"cg4":"Not Safe For Work"
+			"cg1":"Category",
+			"cg2":"Author",
+			"cg3":"Publish Day",
+			"cg4":"Publish Month"
 		},
 		"customDimensions" :{
 			"cd1":"Article UID",
@@ -794,10 +794,10 @@
 	},
 	"UA-599058-151":{
 		"contentGroups" :{
-			"cg1":"Article UID",
-			"cg2":"Topics",
-			"cg3":"z_Not Safe For Brands",
-			"cg4":"Not Safe For Work"
+			"cg1":"Category",
+			"cg2":"Author",
+			"cg3":"Publish Day",
+			"cg4":"Publish Month"
 		},
 		"customDimensions" :{
 			"cd1":"Article UID",
@@ -855,10 +855,10 @@
 	},
 	"UA-599058-193":{
 		"contentGroups" :{
-			"cg1":"Article UID",
-			"cg2":"Topics",
-			"cg3":"z_Not Safe For Brands",
-			"cg4":"Not Safe For Work"
+			"cg1":"Category",
+			"cg2":"Author",
+			"cg3":"Publish Day",
+			"cg4":"Publish Month"
 		},
 		"customDimensions" :{
 			"cd1":"Article UID",
@@ -912,6 +912,68 @@
 			"cm26":"Homepage Video Click",
 			"cm27":"Homepage Feature Click",
 			"cm28":"Article Video Lede Click"
+		}
+	},
+	"UA-599058-105":{
+		"contentGroups" :{
+			"cg1":"Author",
+			"cg2":"Topics",
+			"cg3":"z_Not Safe For Brands",
+			"cg4":"Not Safe For Work"
+		},
+		"customDimensions" :{
+			"cd1":"Article UID",
+			"cd2":"Topics",
+			"cd3":"z_Not Safe For Brands",
+			"cd4":"Not Safe For Work",
+			"cd5":"z_Post Type",
+			"cd6":"Template Type",
+			"cd7":"Authors",
+			"cd8":"z_System Tags",
+			"cd9":"z_Geners",
+			"cd10":"Locale",
+			"cd11":"Editor",
+			"cd12":"social Title",
+			"cd13":"social Description",
+			"cd14":"social Image",
+			"cd15":"Video Lede Source",
+			"cd16":"Video Embed Source",
+			"cd17":"Web ID",
+			"cd18":"Word Count",
+			"cd19":"Krux ID",
+			"cd20":"Krux Segments",
+			"cd21":"Campaign"
+		},
+		"customMetrics" :{
+		}
+	},
+	"UA-599058-162":{
+		"contentGroups" :{
+			"cg1":"Publish Date",
+			"cg2":"Locked",
+			"cg3":"Channel",
+			"cg4":"Collection",
+			"cg5":"Show"
+		},
+		"customDimensions" :{
+			"cd1":"App",
+			"cd2":"App ID",
+			"cd3":"Video ID",
+			"cd4":"Video Title",
+			"cd5":"Not Safe For Brands",
+			"cd6":"Channel",
+			"cd7":"Show",
+			"cd8":"Season Number",
+			"cd9":"Episode Number",
+			"cd10":"Embed Source",
+			"cd11":"Embedded",
+			"cd12":"Locale",
+			"cd13":"Autoplay",
+			"cd14":"Platform",
+			"cd15":"Publish Date",
+			"cd16":"Topics"
+		},
+		"customMetrics" :{
 		}
 	}
 }
