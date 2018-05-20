@@ -17,7 +17,7 @@ chrome.tabs.onActivated.addListener((tab) => {
 						registerTime: new Date().getTime()
 				};
 		}
-		updateBadage(tabId);
+		updateBadge(tabId);
 });
 //
 chrome.tabs.onRemoved.addListener((tab) => {
@@ -30,8 +30,16 @@ chrome.tabs.onRemoved.addListener((tab) => {
 
 //Network Listener
 chrome.webRequest.onBeforeRequest.addListener(function(details) {
-    if(details.url.indexOf('/collect') > -1){
-			var message = parseGAQueryString(getQueryString(details));
+	var message;
+
+    if(details.url.indexOf('www.google-analytics.com') > -1 && details.url.indexOf('/collect') > -1 ){
+			message = parseGAQueryString(getQueryString(details));
+		}	else if(details.url.indexOf('segment.io') > -1 ){
+			message = parseSegmentPayLoad(getQueryString(details));
+		};
+
+
+		if(message){
 			const { tabId, requestId } = details;
 
       if (!tabStorage.hasOwnProperty(tabId)) {
@@ -47,29 +55,20 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				 }
 			}
 
-
       tabStorage[tabId].requests[requestId] = {
           requestId: requestId,
 				  gaTrackingId: message.gaTrackingId,
+					pixelType: message.pixelType,
           url: details.url,
           startTime: details.timeStamp,
           status: 'pending',
 					message: message
-      };
-			updateBadage(tabId);
-			console.log(tabStorage[tabId].requests[requestId]);
+      }
 
-	//
-/*
-			var messageKey = message.tabId+'-'+[messageCount];
-			var storage = { [messageKey] : message};
-  	//sending messages to storage
-  	chrome.storage.sync.set(storage, function() {
-      //  console.log('Value is set to ' + JSON.stringify(storage));
-      });
-      messageCount++;
-*/
-    }
+			updateBadge(tabId);
+			console.log(tabStorage[tabId].requests[requestId]);
+		}
+
 },{urls: ["<all_urls>"]},["requestBody"]);
 
 chrome.webRequest.onCompleted.addListener((details) => {
@@ -196,6 +195,7 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
   if(changeInfo.status == 'loading'){
 		console.log('THIS TAB GOT REFRESHED ' + tabId);
 		tabStorage[tabId].requests = {};
+		updateBadge(tabId);
   }
 });
 chrome.tabs.onRemoved.addListener(function(tabId,removeInfo){
@@ -205,8 +205,15 @@ chrome.tabs.onRemoved.addListener(function(tabId,removeInfo){
 ////////////////////////
 // Updates the numbers under the VICE icon
 ///////////////////////////
-function updateBadage(tabId){
-	chrome.browserAction.setBadgeText({text:String(Object.keys(tabStorage[tabId].requests).length)});
+function updateBadge(tabId){
+	var badgeText = String(Object.keys(tabStorage[tabId].requests).length);
+	if(badgeText == '0'){
+		badgeText = '';
+		chrome.browserAction.setIcon({'path':'images/grey_icon.png'});
+	}else{
+		chrome.browserAction.setIcon({'path':'images/black_icon.png'});
+	}
+	chrome.browserAction.setBadgeText({text:badgeText});
 }
 
 
@@ -249,8 +256,32 @@ function parseGAQueryString(queryString) {
     //    debug('Output',JSON.stringify({[requestType] :output}));
     return {
         "name": requestType,
+				"pixelType": "Google Analytics",
 				"gaTrackingId": output.tid,
         "body": output
+    };
+}
+
+function parseSegmentPayLoad(queryString) {
+		var requestType;
+    var output = new Object();
+    var JSONqueryString = JSON.parse(queryString);
+
+		/////WORK ON BELOW
+
+    // Identifying Request Type
+    if (JSONqueryString.type == 'identify') {
+	      requestType = 'Identify';
+		}else if (JSONqueryString.type == 'track') {
+		    requestType = 'Track';
+		}else if (JSONqueryString.type == 'page') {
+		    requestType = 'Page';
+		}
+    return {
+        "name": requestType,
+				"pixelType": "Segment",
+				"gaTrackingId": JSONqueryString.writeKey,
+        "body": JSONqueryString
     };
 }
 
@@ -270,103 +301,6 @@ function queryStringToJSON(queryString) {
     });
     //debug('JSONconversion', JSON.stringify(result));
     return JSON.parse(JSON.stringify(result));
-
 }
 
-/*
-// Checks for Tab Reload, then deletes historical tab items
-chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
- // console.log("TabID" + tabId);
- // console.log("ChangeInfo" + JSON.stringify(changeInfo));
- // console.log("Tab" + JSON.stringify(tab));
- var keysToDelete = [];
-  if(changeInfo.status == 'loading'){
-  	chrome.storage.sync.get(null, function(storage) {
-  		console.log(storage);
-  		for (var k in storage){
-  			if (k.indexOf(tabId) > -1){
-  				keysToDelete.push(k);
-  			}
-  		}
-  		//console.log(keysToDelete);
-  		chrome.storage.sync.remove(keysToDelete, function(){
-  		console.log('Storage Cleared')
-  		});
-  	});
-
-  }
-});
-*/
-
-// Message Connection with DevTools.js
-/*
-var connections = {};
-
-chrome.runtime.onConnect.addListener(function (port) {
-
-    var extensionListener = function (message, sender, sendResponse) {
-    	console.log(message);
-    	if(message.name != 'init'){
-    		var messageKey = message.tabId+'-'+[messageCount];
-    		var storage = { [messageKey] : message};
-	    	//sending messages to storage
-	    	chrome.storage.sync.set(storage, function() {
-	        //  console.log('Value is set to ' + JSON.stringify(storage));
-	        });
-	        messageCount++;
-    	}
-        // The original connection event doesn't include the tab ID of the
-        // DevTools page, so we need to send it explicitly.
-        if (message.name == "init") {
-          connections[message.tabId] = port;
-          //console.log(port);
-          return;
-        }
-	// other message handling
-    }
-
-    // Listen to messages sent from the DevTools page
-    port.onMessage.addListener(extensionListener);
-
-    port.onDisconnect.addListener(function(port) {
-        port.onMessage.removeListener(extensionListener);
-
-        var tabs = Object.keys(connections);
-        for (var i=0, len=tabs.length; i < len; i++) {
-          if (connections[tabs[i]] == port) {
-            delete connections[tabs[i]]
-            break;
-          }
-        }
-    });
-});
-*/
-
-/*
-
-// Receive message from content script and relay to the devTools page for the
-// current tab
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    // Messages from content scripts should have sender.tab set
-    if (sender.tab) {
-      var tabId = sender.tab.id;
-      if (tabId in connections) {
-        connections[tabId].postMessage(request);
-      } else {
-        console.log("Tab not found in connection list.");
-      }
-    } else {
-      console.log("sender.tab not defined.");
-    }
-    return true;
-});
-
-*/
-
-
-//storage workflow
-// Clearning Storage flow
-// CSS Display of items
-// Sorting of Video vs Uniform
-//prefix tab id on network calls
 }());

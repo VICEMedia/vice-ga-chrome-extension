@@ -10,10 +10,10 @@
 	},
 	"browser_action": {
 		"default_popup": "index.html",
-		"default_icon": "images/icon.png"
+		"default_icon": "images/grey_icon.png"
 	},
 	"permissions": [
-		"storage", "tabs", "webRequest", "*://*.google-analytics.com/"
+		"storage", "tabs", "webRequest", "*://*.google-analytics.com/", "*://*.segment.io/"
 	],
   "options_page": "options.html"
 }

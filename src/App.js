@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import vice_tech_logo from './images/vicetech-square.svg';
 import google_analytics_icon from './images/google_analytics_icon.png';
+import segment_icon from './images/segment_icon.png';
 import down_arrow from './images/down_arrow.png';
 import right_arrow from './images/right_arrow.png';
 import {getCurrentTab} from "./common/Utils";
@@ -86,7 +87,7 @@ class EventContainer extends React.Component {
         return '';
     }
 
-   static customDimensionLabels(gaEvent, gaConfig, networkLabel){
+   static gaCustomDimensionLabels(gaEvent, gaConfig, networkLabel){
 
      var configMap = {"cg" : "contentGroups", "cm" : "customMetrics", "cd" : "customDimensions"};
      var friendlyNameMap = {"cg" : "Content Group", "cm" : "Custom Metric", "cd" : "Custom Dimension"};
@@ -115,7 +116,7 @@ class EventContainer extends React.Component {
 
 
    }
-   static reorderCustomDimensions(gaEvent, gaConfig){
+   static gaCustomDimensions(gaEvent, gaConfig){
      if(gaEvent.tid){
        let output = {};
        // Standard Variables
@@ -131,10 +132,11 @@ class EventContainer extends React.Component {
           output['Event Category'] = gaEvent.ec;
           output['Event Action'] = gaEvent.ea;
           output['Event Label'] = gaEvent.el;
+          output['Event Value'] = gaEvent.ev;
        }
-       Object.assign(output, EventContainer.customDimensionLabels(gaEvent, gaConfig, 'cg'));
-       Object.assign(output, EventContainer.customDimensionLabels(gaEvent, gaConfig, 'cd'));
-       Object.assign(output, EventContainer.customDimensionLabels(gaEvent, gaConfig, 'cm'));
+       Object.assign(output, EventContainer.gaCustomDimensionLabels(gaEvent, gaConfig, 'cg'));
+       Object.assign(output, EventContainer.gaCustomDimensionLabels(gaEvent, gaConfig, 'cd'));
+       Object.assign(output, EventContainer.gaCustomDimensionLabels(gaEvent, gaConfig, 'cm'));
 
        return output;
      } else{
@@ -142,45 +144,133 @@ class EventContainer extends React.Component {
      }
    }
 
+   static segmentCustomDimensions(eventMetadata){
+     if(eventMetadata.writeKey){
+       let output = {};
+       // Standard Variables
+       // NOTE to add User ID when User ID starts
+        output = {
+           'Write Key' : eventMetadata.writeKey,
+           'Anonymous ID' : eventMetadata.anonymousId,
+           'Title' : eventMetadata.context.page.title,
+           'Location' : eventMetadata.context.page.url,
+           'Page' : eventMetadata.context.page.path,
+           'Hit Type' : eventMetadata.type,
+         };
+        if (eventMetadata.type === 'identify'){
+          Object.assign(output, eventMetadata.traits);
+        } else if (eventMetadata.type === 'page' || eventMetadata.type === 'track'){
+          Object.assign(output, eventMetadata.properties);
+        }
+       return output;
+     } else{
+       return '';
+     }
+   }
+
+   static populateCustomDimensions(pixelType, eventMetadata, gaConfig){
+     var output;
+     if(pixelType == 'Google Analytics'){
+      output = EventContainer.gaCustomDimensions(eventMetadata, gaConfig);
+    } else if (pixelType == 'Segment'){
+      output =EventContainer.segmentCustomDimensions(eventMetadata);
+    }
+     return output;
+   }
+   static eventArrowRender(openStatus){
+     var eventArrow;
+     if(openStatus){
+       eventArrow = (<img className='EventArrow' src={down_arrow} alt='down_arrow'/>);
+     } else{
+       eventArrow = (<img className='EventArrow' src={right_arrow} alt='right_arrow'/>);
+     }
+     return eventArrow;
+   }
+
+   static eventLabelRender(pixelType, eventMetadata){
+     // Sets the Top Level Event and Page Label Next to the Arrow
+     function deepFind(obj, path) {
+       var paths = path.split('.')
+         , current = obj
+         , i;
+
+       for (i = 0; i < paths.length; ++i) {
+         if (current[paths[i]] == undefined) {
+           return undefined;
+         } else {
+           current = current[paths[i]];
+         }
+       }
+       return current;
+     }
+
+     function setEventVariable(pixelType, obj, gaVariable, segmentVariable){
+       var output;
+       if (pixelType == 'Google Analytics'){
+           if(typeof gaVariable === 'undefined'){
+             output ='undefined';
+           } else{
+             output = deepFind(obj,gaVariable);
+           }
+       } else if (pixelType == 'Segment'){
+           if(typeof segmentVariable === 'undefined'){
+             output ='undefined';
+           } else{
+             output = deepFind(obj,segmentVariable);
+           }
+      }
+      return output;
+     }
+     function upperCaseFirstLetter(string)
+    {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+     var eventLabelOutput = new Object();
+     var eventType = setEventVariable(pixelType, eventMetadata, 't', 'type');
+     eventLabelOutput.hitType = upperCaseFirstLetter(eventType);
+     //console.log(JSON.stringify(eventMetadata));
+     //Rendering Event Label
+         if(eventType =='event' || eventType =='track' ){
+           var eventCategory =setEventVariable(pixelType, eventMetadata, 'ec', 'properties.category');
+           var eventAction =setEventVariable(pixelType, eventMetadata, 'ea', 'event');
+           var eventLabel =setEventVariable(pixelType, eventMetadata, 'el', 'properties.label');
+
+               eventLabelOutput.label =(<span>
+                               <span className= {`${ (eventCategory == 'undefined')?'statusAmber':''} `}>: {`${eventCategory} `} </span>|
+                               <span className= {`${ (eventAction == 'undefined')?'statusAmber':''} `}> {`${eventAction} `} </span>|
+                               <span className= {`${ (eventLabel == 'undefined')?'statusAmber':''} `}> {`${eventLabel} `} </span>
+                             </span>);
+
+         } else {
+           var pageTitle =setEventVariable(pixelType, eventMetadata, 'dt', 'context.page.title');
+               eventLabelOutput.label = ' : '+ pageTitle;
+         }
+
+     return eventLabelOutput;
+
+   }
+
     render() {
-      const gaEvent = EventContainer.reorderCustomDimensions(this.props.gaEvent.message.body, this.props.gaConfig)
-      const gaEventWrapper = this.props.gaEvent.message.body;
-      const eventLabelLimit = 50;
+      const eventLabelLengthLimit = 50; //Add Length to Name
+      const eventMetadata = this.props.trackingEvent.message.body;
+      const pixelType = this.props.trackingEvent.pixelType;
+      const structuredEventMetadata = EventContainer.populateCustomDimensions(pixelType, eventMetadata, this.props.gaConfig)
 
-      // Handling Event Label Conditionals
-      var gaEventLabel;
-      if(gaEventWrapper.t ==='event'){
-            gaEventLabel =(<span>
-                            <span className= {`${ (typeof gaEventWrapper.ec === 'undefined')?'statusAmber':''} `}>: {`${gaEventWrapper.ec} `} </span>|
-                            <span className= {`${ (typeof gaEventWrapper.ea === 'undefined')?'statusAmber':''} `}> {`${gaEventWrapper.ea} `} </span>|
-                            <span className= {`${ (typeof gaEventWrapper.el === 'undefined')?'statusAmber':''} `}> {`${gaEventWrapper.el} `} </span>
-                          </span>);
-      } else {
-            gaEventLabel = ' : '+ gaEventWrapper.dt;
-      }
-
-      //Handling Arrow Orientation
-      var eventArrow;
-      if(this.state.open){
-        eventArrow = (<img className='EventArrow' src={down_arrow} alt='down_arrow'/>);
-      } else{
-        eventArrow = (<img className='EventArrow' src={right_arrow} alt='right_arrow'/>);
-      }
-
-      //Handing HitType label
-      var hitTypeLabel = (gaEventWrapper.t ==='event')?'Event ':(gaEventWrapper.t ==='pageview')?'Page View ':gaEventWrapper.t;
+      var eventLabel = EventContainer.eventLabelRender(pixelType, eventMetadata);
+      var eventArrow = EventContainer.eventArrowRender(this.state.open);
 
         return (
             <div>
                 <div className='EventTitle'
                   onClick={() => this.handleClick()}>
-                  {eventArrow}{hitTypeLabel}
-                  <span className={(this.props.gaEvent.status === 'complete')?'':'statusRed'}>
-                     ({this.props.gaEvent.status})
+                  {eventArrow}{eventLabel.hitType}&nbsp;
+                  <span className={(this.props.trackingEvent.status === 'complete')?'':'statusRed'}>
+                      ({this.props.trackingEvent.status})
                   </span>
-                  {(gaEventLabel.length > eventLabelLimit)?gaEventLabel.substring(0,eventLabelLimit)+'...':gaEventLabel}
+                  {(eventLabel.label.length > eventLabelLengthLimit)?eventLabel.label.substring(0,eventLabelLengthLimit)+'...':eventLabel.label}
                 </div>
-            <div className={this.state.class}>{EventContainer.renderCustomDimension(gaEvent)}</div>
+            <div className={this.state.class}>{EventContainer.renderCustomDimension(structuredEventMetadata)}</div>
             </div>
         );
     }
@@ -188,31 +278,32 @@ class EventContainer extends React.Component {
 
 class TrackingIdContainer extends React.Component {
 
-    static renderGaEvent(gaEventLog, gaConfig) {
-        if (gaEventLog) {
-            return Object.keys(gaEventLog).map((key) => {
-              return (<EventContainer gaEvent={gaEventLog[key]} id={key} key={key} gaConfig={gaConfig}/>);
+    static renderEvent(eventLog, gaConfig) {
+        if (eventLog) {
+            return Object.keys(eventLog).map((key) => {
+              return (<EventContainer trackingEvent={eventLog[key]} id={key} key={key} gaConfig={gaConfig}/>);
             });
         }
         return '';
     }
 
     render() {
-      const gaTrackingId = this.props.id;
-      const gaEventLog = this.props.gaEventLog;
+      const trackingId = this.props.id;
+      const eventLog = this.props.eventLog;
+      const pixelType = eventLog[Object.keys(eventLog)[0]].pixelType;
 
         return (
           <div>
             <div className='trackingHeader'>
               <div>
-                <img className='trackingLogo' src={google_analytics_icon} alt='google_analytics_icon'/>
+                <img className='trackingLogo' src={(pixelType =='Google Analytics')?google_analytics_icon : segment_icon} alt={pixelType} />
               </div>
               <div>
-                <div className='trackingLabel'>Google Analytics Pixel</div>
-                <div className='trackingId'>Tracking ID: {gaTrackingId}</div>
+                <div className='trackingLabel'>{pixelType} Pixel</div>
+                <div className='trackingId'>Tracking ID: {trackingId}</div>
               </div>
           </div>
-             {TrackingIdContainer.renderGaEvent(gaEventLog, this.props.gaConfig)}
+             {TrackingIdContainer.renderEvent(eventLog, this.props.gaConfig)}
           <br></br>
           </div>
 
@@ -222,7 +313,7 @@ class TrackingIdContainer extends React.Component {
 
 class TrafficContainer extends React.Component {
 
- static gaEventsbyID(trafficLog) {
+ static groupEventsbyID(trafficLog) {
     if (trafficLog.gaTrackingIdIndex) {
       const eventsByIdOutput = {};
 
@@ -244,7 +335,7 @@ class TrafficContainer extends React.Component {
         if (trackingIdLog) {
             return Object.keys(trackingIdLog).map((key) => {
                // const {url, requestDuration, status} = trackingIdLog[key];
-              return (<TrackingIdContainer gaEventLog={trackingIdLog[key]} id={key} key={key} gaConfig={gaConfig} />);
+              return (<TrackingIdContainer eventLog={trackingIdLog[key]} id={key} key={key} gaConfig={gaConfig} />);
             });
         }
         return '';
@@ -253,7 +344,7 @@ class TrafficContainer extends React.Component {
     render() {
 
       const trafficLog = this.props.traffic;
-      const trackingIdLog = TrafficContainer.gaEventsbyID(trafficLog);
+      const trackingIdLog = TrafficContainer.groupEventsbyID(trafficLog);
    //   console.log("in traffic Container");
    //   console.log(trafficLog);
    //   console.log(trackingIdLog);
@@ -318,7 +409,7 @@ class App extends React.Component {
                     loaded: true,
                     traffic: Object.assign(this.state.traffic, response)
                 });
-        //          console.log('from Background Message Response');
+              //    console.log('from Background Message Response');
               //    console.log(this.state.traffic);
               }
           });
@@ -331,9 +422,6 @@ class App extends React.Component {
 
     render() {
       const gaIndex = this.state.traffic.gaTrackingIdIndex || '';
-     // console.log('from background');
-     // console.log(response);
-     // console.log(this.state.traffic);
 
         return (
           <div className="App">
