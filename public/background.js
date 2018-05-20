@@ -72,7 +72,15 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 },{urls: ["<all_urls>"]},["requestBody"]);
 
 chrome.webRequest.onCompleted.addListener((details) => {
-	if(details.url.indexOf('/collect') > -1){
+		var message;
+
+    if(details.url.indexOf('www.google-analytics.com') > -1 && details.url.indexOf('/collect') > -1 ){
+			message = true;
+		}	else if(details.url.indexOf('segment.io') > -1 ){
+			message = true;
+		}
+
+	if(message){
 		const { tabId, requestId } = details;
 		if (!tabStorage.hasOwnProperty(tabId)) {
 				return;
@@ -85,15 +93,19 @@ chrome.webRequest.onCompleted.addListener((details) => {
 				requestDuration: details.timeStamp - request.startTime,
 				status: 'complete'
 		});
-
-		//console.log(tabStorage[tabId].requests[requestId]);
-		//console.log(tabStorage);
-
 	}
 }, {urls: ["<all_urls>"]});
 
 chrome.webRequest.onErrorOccurred.addListener((details)=> {
-	if(details.url.indexOf('/collect') > -1){
+	var message;
+
+	if(details.url.indexOf('www.google-analytics.com') > -1 && details.url.indexOf('/collect') > -1 ){
+		message = true;
+	}	else if(details.url.indexOf('segment.io') > -1 ){
+		message = true;
+	}
+
+		if(message){
 		const { tabId, requestId } = details;
 		if (!tabStorage.hasOwnProperty(tabId)) {
 				return;

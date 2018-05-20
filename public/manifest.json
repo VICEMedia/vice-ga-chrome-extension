@@ -1,7 +1,7 @@
 {
-	"name": "VICE Google Analytics Debugger",
-	"version": "1.1",
-	"description": "Analyzes Google Analytics network calls.",
+	"name": "VICE GA and Segment Debugger",
+	"version": "2.1",
+	"description": "Analyzes Google Analytics and Segment network calls.",
 	"manifest_version": 2,
 	"icons": { "128": "images/icon.png"},
 	"background": {
@@ -13,7 +13,11 @@
 		"default_icon": "images/grey_icon.png"
 	},
 	"permissions": [
-		"storage", "tabs", "webRequest", "*://*.google-analytics.com/", "*://*.segment.io/"
+		"storage",
+		"tabs",
+		"webRequest",
+		"*://*.google-analytics.com/",
+		"*://*.segment.io/"
 	],
   "options_page": "options.html"
 }
