@@ -6,7 +6,7 @@ import google_analytics_icon from './images/google_analytics_icon.png';
 import segment_icon from './images/segment_icon.png';
 import down_arrow from './images/down_arrow.png';
 import right_arrow from './images/right_arrow.png';
-import {getCurrentTab} from "./common/Utils";
+import pop_window_icon from './images/pop_window_icon.png';
 import {getGAConfig} from "./common/Utils";
 import {unregister} from './registerServiceWorker';
 unregister();
@@ -170,9 +170,9 @@ class EventContainer extends React.Component {
 
    static populateCustomDimensions(pixelType, eventMetadata, gaConfig){
      var output;
-     if(pixelType == 'Google Analytics'){
+     if(pixelType === 'Google Analytics'){
       output = EventContainer.gaCustomDimensions(eventMetadata, gaConfig);
-    } else if (pixelType == 'Segment'){
+    } else if (pixelType === 'Segment'){
       output =EventContainer.segmentCustomDimensions(eventMetadata);
     }
      return output;
@@ -195,7 +195,7 @@ class EventContainer extends React.Component {
          , i;
 
        for (i = 0; i < paths.length; ++i) {
-         if (current[paths[i]] == undefined) {
+         if (current[paths[i]] === undefined) {
            return undefined;
          } else {
            current = current[paths[i]];
@@ -212,7 +212,7 @@ class EventContainer extends React.Component {
            } else{
              output = deepFind(obj,gaVariable);
            }
-       } else if (pixelType == 'Segment'){
+       } else if (pixelType === 'Segment'){
            if(typeof segmentVariable === 'undefined'){
              output ='undefined';
            } else{
@@ -226,20 +226,20 @@ class EventContainer extends React.Component {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-     var eventLabelOutput = new Object();
+     var eventLabelOutput = {};
      var eventType = setEventVariable(pixelType, eventMetadata, 't', 'type');
      eventLabelOutput.hitType = upperCaseFirstLetter(eventType);
      //console.log(JSON.stringify(eventMetadata));
      //Rendering Event Label
-         if(eventType =='event' || eventType =='track' ){
+         if(eventType ==='event' || eventType ==='track' ){
            var eventCategory =setEventVariable(pixelType, eventMetadata, 'ec', 'properties.category');
            var eventAction =setEventVariable(pixelType, eventMetadata, 'ea', 'event');
            var eventLabel =setEventVariable(pixelType, eventMetadata, 'el', 'properties.label');
 
                eventLabelOutput.label =(<span>
-                               <span className= {`${ (eventCategory == 'undefined')?'statusAmber':''} `}>: {`${eventCategory} `} </span>|
-                               <span className= {`${ (eventAction == 'undefined')?'statusAmber':''} `}> {`${eventAction} `} </span>|
-                               <span className= {`${ (eventLabel == 'undefined')?'statusAmber':''} `}> {`${eventLabel} `} </span>
+                               <span className= {`${ (eventCategory === 'undefined')?'statusAmber':''} `}>: {`${eventCategory} `} </span>|
+                               <span className= {`${ (eventAction === 'undefined')?'statusAmber':''} `}> {`${eventAction} `} </span>|
+                               <span className= {`${ (eventLabel === 'undefined')?'statusAmber':''} `}> {`${eventLabel} `} </span>
                              </span>);
 
          } else {
@@ -296,7 +296,7 @@ class TrackingIdContainer extends React.Component {
           <div>
             <div className='trackingHeader'>
               <div>
-                <img className='trackingLogo' src={(pixelType =='Google Analytics')?google_analytics_icon : segment_icon} alt={pixelType} />
+                <img className='trackingLogo' src={(pixelType ==='Google Analytics')?google_analytics_icon : segment_icon} alt={pixelType} />
               </div>
               <div>
                 <div className='trackingLabel'>{pixelType} Pixel</div>
@@ -377,7 +377,6 @@ class App extends React.Component {
 
     timer() {
        // setState method is used to update the state
-       //console.log('Polling Logic Firing' + Date.now())
        this.retrieveBackgroundMsg();
     }
 
@@ -386,32 +385,11 @@ class App extends React.Component {
       this.retrieveBackgroundMsg();
 
       getGAConfig((config) => { // Gets GA Config JSON from Storage
-        getCurrentTab((tab) => { // Gets Current TabID
           // For Polling Logic to make sure all new Network calls are captured
           var intervalId = setInterval(this.timer.bind(this), 1000);
           this.setState({
               intervalId: intervalId,
-              parentHostname: App.getHostname(tab.url),
               gaConfig: JSON.parse(config)
-          });
-        });
-      });
-    }
-
-    retrieveBackgroundMsg(){
-      getCurrentTab((tab) => {
-        //console.log("Tab ID is "+ tab.id);
-          chrome.runtime.sendMessage({type: 'popupInit', tabId: tab.id}, (response) => {
-          //  console.log(JSON.stringify(response));
-              if (response) {
-
-                this.setState({
-                    loaded: true,
-                    traffic: Object.assign(this.state.traffic, response)
-                });
-              //    console.log('from Background Message Response');
-              //    console.log(this.state.traffic);
-              }
           });
       });
     }
@@ -420,6 +398,22 @@ class App extends React.Component {
       clearInterval(this.state.intervalId);
     }
 
+    retrieveBackgroundMsg(){
+      chrome.runtime.sendMessage({type: 'popupInit'}, (response) => {
+          if (response) {
+            this.setState({
+                loaded: true,
+                parentHostname: App.getHostname(response.url),
+                traffic: Object.assign(this.state.traffic, response.data)
+            });
+          }
+      });
+    }
+
+    popWindow(){
+      chrome.windows.create({'url': 'index.html', 'type': 'popup'}, function(window) {
+      });
+    }
     render() {
       const gaIndex = this.state.traffic.gaTrackingIdIndex || '';
 
@@ -432,6 +426,9 @@ class App extends React.Component {
               <div className='App-title'>
                 <span className="App-Header">VICE Google Analytics Debugger</span><br></br>
                 <a className='App-LearnMore' href="https://github.com/VICEMedia/vice-ga-chrome-extension">Learn More</a>
+              </div>
+              <div className='App-popout'>
+                <img className='App-Popout-image' src={pop_window_icon} onClick={() => this.popWindow()}/>
               </div>
             </header>
             <div className="App-summary">

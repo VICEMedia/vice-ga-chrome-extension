@@ -2,7 +2,6 @@ body{
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  width: 450px;
   /* Add these guys. */
   min-width: 450px;
   min-height: 500px;
@@ -44,6 +43,18 @@ body{
   color: rgb(93, 125, 174);
   font-size: 12px;
   text-decoration: none;
+}
+.App-popout{
+  float: right;
+  line-height: normal;
+  margin-left: 10px;
+  padding-top: 20px;
+  padding-right: 30px;
+}
+.App-Popout-image{
+  width:20px;
+  height:20px;
+  cursor:pointer;
 }
 .App-summary{
   font-size: 16px;

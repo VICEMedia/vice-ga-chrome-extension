@@ -1,5 +1,7 @@
 (function() {
 const tabStorage = {};
+let currentTabId;
+let currentTabUrl;
 //var messageCount = 0;
 
 //Confirmation the Extention has loaded
@@ -17,6 +19,15 @@ chrome.tabs.onActivated.addListener((tab) => {
 						registerTime: new Date().getTime()
 				};
 		}
+		// Checks TAB URL and Filters out any Chrome Extension URLs
+		chrome.tabs.get(tabId, function(tab){
+					console.log(tab.url);
+					if(tab.url.indexOf('chrome-extension://') == -1){
+						currentTabId = tab.id;
+						currentTabUrl = tab.url;
+					}
+		});
+
 		updateBadge(tabId);
 });
 //
@@ -66,19 +77,23 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
       }
 
 			updateBadge(tabId);
-			console.log(tabStorage[tabId].requests[requestId]);
+		//	console.log(tabStorage[tabId].requests[requestId]);
 		}
 
 },{urls: ["<all_urls>"]},["requestBody"]);
 
-chrome.webRequest.onCompleted.addListener((details) => {
-		var message;
+function confirmMessage(details){
+	var message = false;
+	if(details.url.indexOf('www.google-analytics.com') > -1 && details.url.indexOf('/collect') > -1 ){
+		message = true;
+	}	else if(details.url.indexOf('segment.io') > -1 ){
+		message = true;
+	}
+	return message;
+}
 
-    if(details.url.indexOf('www.google-analytics.com') > -1 && details.url.indexOf('/collect') > -1 ){
-			message = true;
-		}	else if(details.url.indexOf('segment.io') > -1 ){
-			message = true;
-		}
+chrome.webRequest.onCompleted.addListener((details) => {
+		var message = confirmMessage(details);
 
 	if(message){
 		const { tabId, requestId } = details;
@@ -97,13 +112,7 @@ chrome.webRequest.onCompleted.addListener((details) => {
 }, {urls: ["<all_urls>"]});
 
 chrome.webRequest.onErrorOccurred.addListener((details)=> {
-	var message;
-
-	if(details.url.indexOf('www.google-analytics.com') > -1 && details.url.indexOf('/collect') > -1 ){
-		message = true;
-	}	else if(details.url.indexOf('segment.io') > -1 ){
-		message = true;
-	}
+		var message = confirmMessage(details);
 
 		if(message){
 		const { tabId, requestId } = details;
@@ -122,12 +131,10 @@ chrome.webRequest.onErrorOccurred.addListener((details)=> {
 }, {urls: ["<all_urls>"]});
 
 chrome.webRequest.onBeforeSendHeaders.addListener((details)=> {
-  if(details.url.indexOf('/collect') > -1){
-    const { tabId, requestId } = details;
-    if (!tabStorage.hasOwnProperty(tabId)) {
-        return;
-    }
+		var message = confirmMessage(details);
 
+		if(message){
+		const { tabId, requestId } = details;
     const request = tabStorage[tabId].requests[requestId];
     Object.assign(request, {
         endTime: details.timeStamp,
@@ -139,12 +146,9 @@ chrome.webRequest.onBeforeSendHeaders.addListener((details)=> {
 }, {urls: ["<all_urls>"]});
 
 chrome.webRequest.onSendHeaders.addListener((details)=> {
-  if(details.url.indexOf('/collect') > -1){
-    const { tabId, requestId } = details;
-    if (!tabStorage.hasOwnProperty(tabId)) {
-        return;
-    }
-
+		var message = confirmMessage(details);
+		if(message){
+		const { tabId, requestId } = details;
     const request = tabStorage[tabId].requests[requestId];
     Object.assign(request, {
         endTime: details.timeStamp,
@@ -155,12 +159,10 @@ chrome.webRequest.onSendHeaders.addListener((details)=> {
   }
 }, {urls: ["<all_urls>"]});
 chrome.webRequest.onHeadersReceived.addListener((details)=> {
-  if(details.url.indexOf('/collect') > -1){
-    const { tabId, requestId } = details;
-    if (!tabStorage.hasOwnProperty(tabId)) {
-        return;
-    }
+		var message = confirmMessage(details);
 
+		if(message){
+		const { tabId, requestId } = details;
     const request = tabStorage[tabId].requests[requestId];
     Object.assign(request, {
         endTime: details.timeStamp,
@@ -171,12 +173,10 @@ chrome.webRequest.onHeadersReceived.addListener((details)=> {
   }
 }, {urls: ["<all_urls>"]});
 chrome.webRequest.onResponseStarted.addListener((details)=> {
-  if(details.url.indexOf('/collect') > -1){
-    const { tabId, requestId } = details;
-    if (!tabStorage.hasOwnProperty(tabId)) {
-        return;
-    }
+	var message = confirmMessage(details);
 
+		if(message){
+		const { tabId, requestId } = details;
     const request = tabStorage[tabId].requests[requestId];
     Object.assign(request, {
         endTime: details.timeStamp,
@@ -192,7 +192,9 @@ chrome.webRequest.onResponseStarted.addListener((details)=> {
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
     switch (msg.type) {
         case 'popupInit':
-            response(tabStorage[msg.tabId]);
+            //response(tabStorage[msg.tabId]);
+						response({'url':currentTabUrl ,'data':tabStorage[currentTabId]});
+					//	console.log('message tab ' + msg.tabId + ' current tab' + currentTabId)
             break;
         default:
             response('unknown request');
