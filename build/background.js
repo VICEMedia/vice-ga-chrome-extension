@@ -6,7 +6,7 @@ let currentTabUrl;
 
 //Confirmation the Extention has loaded
 chrome.runtime.onInstalled.addListener(function() {
-	console.log('backround script loaded');
+//	console.log('backround script loaded');
 });
 
 //Checks for the active tab
@@ -21,7 +21,6 @@ chrome.tabs.onActivated.addListener((tab) => {
 		}
 		// Checks TAB URL and Filters out any Chrome Extension URLs
 		chrome.tabs.get(tabId, function(tab){
-					console.log(tab.url);
 					if(tab.url.indexOf('chrome-extension://') == -1){
 						currentTabId = tab.id;
 						currentTabUrl = tab.url;
@@ -59,9 +58,11 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 
 			//Creates Index of GA Tracking Ids;
 			if(!tabStorage[tabId].hasOwnProperty('gaTrackingIdIndex')){
+				if(message.gaTrackingId != null){
 				  tabStorage[tabId]['gaTrackingIdIndex'] = [message.gaTrackingId];
+				}
 			} else{
-				 if(tabStorage[tabId]['gaTrackingIdIndex'].indexOf(message.gaTrackingId) == -1){
+				 if(tabStorage[tabId]['gaTrackingIdIndex'].indexOf(message.gaTrackingId) == -1 && message.gaTrackingId != null){
 					 tabStorage[tabId]['gaTrackingIdIndex'].push(message.gaTrackingId);
 				 }
 			}

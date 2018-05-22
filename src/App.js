@@ -27,7 +27,8 @@ class CustomDimensionContainer extends React.Component {
     render() {
       if(this.props.id){
         const cdKey = this.props.id;
-        const cdValue = this.props.cd || '';
+        let cdValue = this.props.cd || '';
+        cdValue = cdValue.toString();
         const valueLengthLimit = 50;
        // console.log(cdValue)
         //{(cdValue.length > 20)?"<span>Show</span>":cdValue}
@@ -133,6 +134,7 @@ class EventContainer extends React.Component {
           output['Event Action'] = gaEvent.ea;
           output['Event Label'] = gaEvent.el;
           output['Event Value'] = gaEvent.ev;
+          output['NonInteraction'] = gaEvent.ni;
        }
        Object.assign(output, EventContainer.gaCustomDimensionLabels(gaEvent, gaConfig, 'cg'));
        Object.assign(output, EventContainer.gaCustomDimensionLabels(gaEvent, gaConfig, 'cd'));
@@ -162,6 +164,7 @@ class EventContainer extends React.Component {
         } else if (eventMetadata.type === 'page' || eventMetadata.type === 'track'){
           Object.assign(output, eventMetadata.properties);
         }
+        //console.log(output);
        return output;
      } else{
        return '';
@@ -206,7 +209,7 @@ class EventContainer extends React.Component {
 
      function setEventVariable(pixelType, obj, gaVariable, segmentVariable){
        var output;
-       if (pixelType == 'Google Analytics'){
+       if (pixelType === 'Google Analytics'){
            if(typeof gaVariable === 'undefined'){
              output ='undefined';
            } else{
@@ -415,8 +418,7 @@ class App extends React.Component {
       });
     }
     render() {
-      const gaIndex = this.state.traffic.gaTrackingIdIndex || '';
-
+      let gaIndex = this.state.traffic.gaTrackingIdIndex || '';
         return (
           <div className="App">
             <header className="App-header">
@@ -428,7 +430,7 @@ class App extends React.Component {
                 <a className='App-LearnMore' href="https://github.com/VICEMedia/vice-ga-chrome-extension">Learn More</a>
               </div>
               <div className='App-popout'>
-                <img className='App-Popout-image' src={pop_window_icon} onClick={() => this.popWindow()}/>
+                <img className='App-Popout-image' src={pop_window_icon} alt="pop_window" onClick={() => this.popWindow()}/>
               </div>
             </header>
             <div className="App-summary">
