@@ -2,34 +2,45 @@
 const tabStorage = {};
 let currentTabId;
 let currentTabUrl;
-//var messageCount = 0;
 
-//Confirmation the Extention has loaded
-chrome.runtime.onInstalled.addListener(function() {
-//	console.log('backround script loaded');
-});
 
-//Checks for the active tab
+////////////////
+// Window and Tab Management
+///////////////////
+
+//Checks for the active tab changes within a window
 chrome.tabs.onActivated.addListener((tab) => {
 		const tabId = tab ? tab.tabId : chrome.tabs.TAB_ID_NONE;
-		if (!tabStorage.hasOwnProperty(tabId)) {
-				tabStorage[tabId] = {
-						id: tabId,
-						requests: {},
-						registerTime: new Date().getTime()
-				};
-		}
-		// Checks TAB URL and Filters out any Chrome Extension URLs
-		chrome.tabs.get(tabId, function(tab){
-					if(tab.url.indexOf('chrome-extension://') == -1){
-						currentTabId = tab.id;
-						currentTabUrl = tab.url;
-					}
-		});
-
-		updateBadge(tabId);
+		tabUpdate(tabId);
 });
-//
+
+//Detects window changes
+chrome.windows.onFocusChanged.addListener((windowId) => {
+	chrome.tabs.query({active: true, lastFocusedWindow: true}, function(tabs) {
+		const tabId = tabs ? tabs[0].id : chrome.tabs.TAB_ID_NONE;
+		tabUpdate(tabId);
+	});
+});
+
+function tabUpdate(tabId){
+	if (!tabStorage.hasOwnProperty(tabId)) {
+			tabStorage[tabId] = {
+					id: tabId,
+					requests: {},
+					registerTime: new Date().getTime()
+			};
+	}
+	// Checks TAB URL and Filters out any Chrome Extension URLs
+	chrome.tabs.get(tabId, function(tab){
+				if(tab.url.indexOf('chrome-extension://') == -1){
+					currentTabId = tab.id;
+					currentTabUrl = tab.url;
+				}
+	});
+
+	updateBadge(tabId);
+}
+
 chrome.tabs.onRemoved.addListener((tab) => {
 		const tabId = tab.tabId;
 		if (!tabStorage.hasOwnProperty(tabId)) {
@@ -38,7 +49,39 @@ chrome.tabs.onRemoved.addListener((tab) => {
 		tabStorage[tabId] = null;
 });
 
-//Network Listener
+/////////////////////////////
+//  Tab Refresh Handler / Listener
+////////////////////////////////
+chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
+  if(changeInfo.status == 'loading'){
+		console.log('THIS TAB GOT REFRESHED ' + tabId);
+		tabStorage[tabId].requests = {};
+		updateBadge(tabId);
+  }
+});
+chrome.tabs.onRemoved.addListener(function(tabId,removeInfo){
+	console.log('THIS TAB GOT DELETED ' + tabId);
+	tabStorage[tabId].requests = {};
+});
+////////////////////////
+// Updates the numbers under the VICE icon
+///////////////////////////
+function updateBadge(tabId){
+	var badgeText = String(Object.keys(tabStorage[tabId].requests).length);
+	if(badgeText == '0'){
+		badgeText = '';
+		chrome.browserAction.setIcon({'path':'images/grey_icon.png'});
+	}else{
+		chrome.browserAction.setIcon({'path':'images/black_icon.png'});
+	}
+	chrome.browserAction.setBadgeText({text:badgeText});
+}
+
+
+////////////////
+// Network Listeners
+///////////////////
+
 chrome.webRequest.onBeforeRequest.addListener(function(details) {
 	var message;
 
@@ -187,8 +230,10 @@ chrome.webRequest.onResponseStarted.addListener((details)=> {
   //  console.log(tabStorage[tabId].requests[requestId]);
   }
 }, {urls: ["<all_urls>"]});
+
+
 /////////////////////
-// Message Listener / Handler
+// Popup Message Listener / Handler
 //////////////////////
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
     switch (msg.type) {
@@ -203,33 +248,6 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
     }
 });
 
-/////////////////////////////
-//  Tab Refresh Handler / Listener
-////////////////////////////////
-chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
-  if(changeInfo.status == 'loading'){
-		console.log('THIS TAB GOT REFRESHED ' + tabId);
-		tabStorage[tabId].requests = {};
-		updateBadge(tabId);
-  }
-});
-chrome.tabs.onRemoved.addListener(function(tabId,removeInfo){
-	console.log('THIS TAB GOT DELETED ' + tabId);
-	tabStorage[tabId].requests = {};
-});
-////////////////////////
-// Updates the numbers under the VICE icon
-///////////////////////////
-function updateBadge(tabId){
-	var badgeText = String(Object.keys(tabStorage[tabId].requests).length);
-	if(badgeText == '0'){
-		badgeText = '';
-		chrome.browserAction.setIcon({'path':'images/grey_icon.png'});
-	}else{
-		chrome.browserAction.setIcon({'path':'images/black_icon.png'});
-	}
-	chrome.browserAction.setBadgeText({text:badgeText});
-}
 
 
 ///////////////////////
