@@ -1,10 +1,10 @@
 (function() {
 const tabStorage = {};
+const versionNumber = chrome.runtime.getManifest().version;
 let currentTabId;
 let currentTabUrl;
 
-
-////////////////
+///////////////
 // Window and Tab Management
 ///////////////////
 
@@ -63,6 +63,7 @@ chrome.tabs.onRemoved.addListener(function(tabId,removeInfo){
 	console.log('THIS TAB GOT DELETED ' + tabId);
 	tabStorage[tabId].requests = {};
 });
+
 ////////////////////////
 // Updates the numbers under the VICE icon
 ///////////////////////////
@@ -239,7 +240,7 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
     switch (msg.type) {
         case 'popupInit':
             //response(tabStorage[msg.tabId]);
-						response({'url':currentTabUrl ,'data':tabStorage[currentTabId]});
+						response({'url':currentTabUrl ,'data':tabStorage[currentTabId], 'version':versionNumber});
 					//	console.log('message tab ' + msg.tabId + ' current tab' + currentTabId)
             break;
         default:

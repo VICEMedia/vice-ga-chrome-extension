@@ -1,6 +1,6 @@
 {
-	"name": "VICE GA and Segment Debugger",
-	"version": "2.1",
+	"name": "Google Analytics and Segment Debugger",
+	"version": "2.0.0.3",
 	"description": "Analyzes Google Analytics and Segment network calls.",
 	"manifest_version": 2,
 	"author": "George Jeng - VICE TECH",

@@ -16,7 +16,7 @@ body{
   width: 45px;
 }
 
-.App-header {
+.App-Header {
   height: 70px;
   padding: 20px;
   color: black;
@@ -29,15 +29,18 @@ body{
   width: 100%;
 }
 
-.App-title {
+.App-Banner {
   float: left;
   line-height: normal;
   margin-left: 10px;
   padding-top: 15px;
 }
 
-.App-Header{
+.App-Title{
   font-size: 14px; font-weight: bold;
+}
+.App-Version{
+  font-size: 12px; font-weight: normal;
 }
 .App-LearnMore{
   color: rgb(93, 125, 174);

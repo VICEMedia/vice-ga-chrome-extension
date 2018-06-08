@@ -369,7 +369,8 @@ class App extends React.Component {
             loaded: false,
             traffic: {},
             gaConfig: {},
-            parentHostname: ''
+            parentHostname: '',
+            manifestVersion: ''
         };
     }
     static getHostname(href) {
@@ -407,7 +408,8 @@ class App extends React.Component {
             this.setState({
                 loaded: true,
                 parentHostname: App.getHostname(response.url),
-                traffic: Object.assign(this.state.traffic, response.data)
+                traffic: Object.assign(this.state.traffic, response.data),
+                manifestVersion: response.version
             });
           }
       });
@@ -421,12 +423,13 @@ class App extends React.Component {
       let gaIndex = this.state.traffic.gaTrackingIdIndex || '';
         return (
           <div className="App">
-            <header className="App-header">
+            <header className="App-Header">
               <div>
                 <img className='App-logo' src={vice_tech_logo} alt="vice_tech_logo" />
               </div>
-              <div className='App-title'>
-                <span className="App-Header">VICE Google Analytics Debugger</span><br></br>
+              <div className='App-Banner'>
+                <span className="App-Title">Google Analytics and Segment Debugger</span><br></br>
+                <span className="App-Version">Version {this.state.manifestVersion} - </span>
                 <a className='App-LearnMore' href="https://github.com/VICEMedia/vice-ga-chrome-extension">Learn More</a>
               </div>
               <div className='App-popout'>
