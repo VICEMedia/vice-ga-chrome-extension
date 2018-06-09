@@ -9,6 +9,7 @@ import right_arrow from './images/right_arrow.png';
 import pop_window_icon from './images/pop_window_icon.png';
 import {getGAConfig} from "./common/Utils";
 import {unregister} from './registerServiceWorker';
+//import './common/google-analytics-bundle.js';
 unregister();
 
 class CustomDimensionContainer extends React.Component {
@@ -384,9 +385,21 @@ class App extends React.Component {
        this.retrieveBackgroundMsg();
     }
 
+    extensionGATracking(){
+/*
+      // Initialize the Analytics service object with the name of your app.
+      var service = analytics.getService('ga_debug_extension');
+
+      // Get a Tracker using your Google Analytics app Tracking ID.
+      var tracker = service.getTracker('UA-599058-203');
+      tracker.sendAppView('TastyView');
+*/
+    }
+
     componentWillMount() {
       //retrieves Network Calls from Background JS
       this.retrieveBackgroundMsg();
+  //    this.extensionGATracking();
 
       getGAConfig((config) => { // Gets GA Config JSON from Storage
           // For Polling Logic to make sure all new Network calls are captured
@@ -430,7 +443,7 @@ class App extends React.Component {
               <div className='App-Banner'>
                 <span className="App-Title">Google Analytics and Segment Debugger</span><br></br>
                 <span className="App-Version">Version {this.state.manifestVersion} - </span>
-                <a className='App-LearnMore' href="https://github.com/VICEMedia/vice-ga-chrome-extension">Learn More</a>
+                <a className='App-LearnMore' href="https://georgejeng.typeform.com/to/Tm5Vo9" rel="noopener noreferrer" target="_blank">Feedback</a>
               </div>
               <div className='App-popout'>
                 <img className='App-Popout-image' src={pop_window_icon} alt="pop_window" onClick={() => this.popWindow()}/>

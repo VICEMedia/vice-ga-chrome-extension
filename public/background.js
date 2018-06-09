@@ -79,6 +79,8 @@ function updateBadge(tabId){
 }
 
 
+
+
 ////////////////
 // Network Listeners
 ///////////////////
