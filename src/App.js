@@ -9,6 +9,8 @@ import right_arrow from './images/right_arrow.png';
 import pop_window_icon from './images/pop_window_icon.png';
 import {getGAConfig} from "./common/Utils";
 import {unregister} from './registerServiceWorker';
+import gaConfigFile from "./common/gaConfig.json"; //Intenal VICE Config
+
 //import './common/google-analytics-bundle.js';
 unregister();
 
@@ -366,10 +368,11 @@ class TrafficContainer extends React.Component {
 class App extends React.Component {
     constructor(props) {
         super(props);
+        // gaConfig shoudl be a blank object {} when project goes OSS.
         this.state = {
             loaded: false,
             traffic: {},
-            gaConfig: {},
+            gaConfig: gaConfigFile,
             parentHostname: '',
             manifestVersion: ''
         };
@@ -408,6 +411,7 @@ class App extends React.Component {
               intervalId: intervalId,
               gaConfig: JSON.parse(config)
           });
+
       });
     }
 
@@ -450,7 +454,7 @@ class App extends React.Component {
               </div>
             </header>
             <div className="App-summary">
-              <span>{gaIndex.length} pixel{(gaIndex.length > 1) ? 's' :''} found on {this.state.parentHostname}
+              <span><span id="pixelCount">{gaIndex.length}</span> pixel{(gaIndex.length > 1) ? 's' :''} found on <span id="domain">{this.state.parentHostname}</span>
             </span>
             </div>
             <div className="App-body">

@@ -21,9 +21,7 @@ textarea{
 <body>
 <h1> VICE Google Analytics Chrome Extension Configuration</h1>
 
-<h3>Overview</h3>
-<p>The page was designed to give the user control over how labels for Custom Dimensions, Content Groups, and Custom Metrics are labeled.</p>
-
+<h3>How to update the labels for Custom Dimensions, Metrics, and Content Groups</h3>
 <p>By default labels are just the literal dimension index (eg Custom Dimension 1).  By updating your options preference you can update the label to reflect the true representation of that label.</p>
 
 <h3>Sample Configuration File</h3>
@@ -63,12 +61,26 @@ textarea{
 
 
   </div>
-
-
 </div>
 
+<h3> Google Analytics Tracking Opt Out</h3>
+<p>In order to understand how users interact with the extension, Google Analytics is added to the chrome extension.</p>
+
+<div class='section'>
+  <h4>You can opt out of tracking by...</h4>
+  <div id="settings-loading">
+    Loading settings...
+  </div>
+  <div id="settings-loaded" hidden>
+    <label>
+      <input id="tracking-permitted" type="checkbox" />
+      Send anonymous usage data.
+    </label>
+  </div>
 
 
+<script src="google-analytics-bundle.js"></script>
+<script src="analytics.js"></script>
 
 
 </body>

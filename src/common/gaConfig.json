@@ -975,5 +975,35 @@
 		},
 		"customMetrics" :{
 		}
+	},
+	"UA-599058-191":{
+		"contentGroups" :{
+		},
+		"customDimensions" :{
+			"cd1":"Article UID",
+			"cd2":"Topics",
+			"cd3":"Not Safe For Work",
+			"cd4":"z_Not Safe For Brand",
+			"cd5":"z_Post Type",
+			"cd6":"Template Type",
+			"cd7":"Authors",
+			"cd8":"z_System Tags",
+			"cd9":"z_Geners",
+			"cd10":"Locale",
+			"cd11":"Web ID",
+			"cd12":"social Title",
+			"cd13":"social Description",
+			"cd14":"social Image",
+			"cd15":"Video Lede Source",
+			"cd16":"Video Embed Source",
+			"cd17":"Editor",
+			"cd18":"Word Count",
+			"cd19":"Placeholder",
+			"cd20":"Placeholder",
+			"cd21":"Placeholder",
+			"cd22":"AMP Doc Host"
+		},
+		"customMetrics" :{
+		}
 	}
 }
