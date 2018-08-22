@@ -27,7 +27,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-			"cd21":"Campaign"
+			"cd21": "Campaign",
+			"cd22": "AMP Doc Host",
+			"cd23": "Article Index",
+			"cd24": "GA Client ID",
+			"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -88,7 +92,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-			"cd21":"Campaign"
+			"cd21": "Campaign",
+			"cd22": "AMP Doc Host",
+			"cd23": "Article Index",
+			"cd24": "GA Client ID",
+			"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -149,7 +157,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-			"cd21":"Campaign"
+			"cd21": "Campaign",
+			"cd22": "AMP Doc Host",
+			"cd23": "Article Index",
+			"cd24": "GA Client ID",
+			"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -210,7 +222,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-   			"cd21":"Campaign"
+   		"cd21": "Campaign",
+			"cd22": "AMP Doc Host",
+			"cd23": "Article Index",
+			"cd24": "GA Client ID",
+			"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -271,7 +287,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-			"cd21":"Campaign"
+			"cd21": "Campaign",
+			"cd22": "AMP Doc Host",
+			"cd23": "Article Index",
+			"cd24": "GA Client ID",
+			"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -332,7 +352,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-			"cd21":"Campaign"
+			"cd21": "Campaign",
+"cd22": "AMP Doc Host",
+"cd23": "Article Index",
+"cd24": "GA Client ID",
+"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -393,7 +417,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-			"cd21":"Campaign"
+			"cd21": "Campaign",
+			"cd22": "AMP Doc Host",
+			"cd23": "Article Index",
+			"cd24": "GA Client ID",
+			"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -454,7 +482,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-			"cd21":"Campaign"
+			"cd21": "Campaign",
+			"cd22": "AMP Doc Host",
+			"cd23": "Article Index",
+			"cd24": "GA Client ID",
+			"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -515,7 +547,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-			"cd21":"Campaign"
+			"cd21": "Campaign",
+			"cd22": "AMP Doc Host",
+			"cd23": "Article Index",
+			"cd24": "GA Client ID",
+			"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -576,7 +612,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-			"cd21":"Campaign"
+			"cd21": "Campaign",
+			"cd22": "AMP Doc Host",
+			"cd23": "Article Index",
+			"cd24": "GA Client ID",
+			"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -637,7 +677,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-			"cd21":"Campaign"
+			"cd21": "Campaign",
+			"cd22": "AMP Doc Host",
+			"cd23": "Article Index",
+			"cd24": "GA Client ID",
+			"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -698,7 +742,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-			"cd21":"Campaign"
+			"cd21": "Campaign",
+			"cd22": "AMP Doc Host",
+			"cd23": "Article Index",
+			"cd24": "GA Client ID",
+			"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -759,7 +807,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-			"cd21":"Campaign"
+			"cd21": "Campaign",
+			"cd22": "AMP Doc Host",
+			"cd23": "Article Index",
+			"cd24": "GA Client ID",
+			"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -820,7 +872,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-			"cd21":"Campaign"
+			"cd21": "Campaign",
+			"cd22": "AMP Doc Host",
+			"cd23": "Article Index",
+			"cd24": "GA Client ID",
+			"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -881,7 +937,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-			"cd21":"Campaign"
+			"cd21": "Campaign",
+			"cd22": "AMP Doc Host",
+			"cd23": "Article Index",
+			"cd24": "GA Client ID",
+			"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 			"cm1":"Video Plays - Manual",
@@ -942,7 +1002,11 @@
 			"cd18":"Word Count",
 			"cd19":"Krux ID",
 			"cd20":"Krux Segments",
-			"cd21":"Campaign"
+			"cd21": "Campaign",
+			"cd22": "AMP Doc Host",
+			"cd23": "Article Index",
+			"cd24": "GA Client ID",
+			"cd25": "Segment Anonymous User ID"
 		},
 		"customMetrics" :{
 		}

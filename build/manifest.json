@@ -1,7 +1,7 @@
 {
 	"name": "Google Analytics and Segment Debugger",
 	"short_name":"GA and Segment Debugger",
-	"version": "2.0.0.7",
+	"version": "2.0.0.8",
 	"description": "Analyzes Google Analytics and Segment network calls.",
 	"manifest_version": 2,
 	"author": "George Jeng - VICE TECH",
