@@ -18,15 +18,10 @@
 // They can be especially useful in larger code bases where centralized
 // control over events is desired.
 
-/*
-var appEvent = analytics.EventBuilder.builder().
-    category('PopUp').
-    action('App Open').
-    dimension(1, document.getElementById('domain').innerHTML).
-    dimension(2, document.getElementById('pixelCount').innerHTML);
-*/
+
 var service, tracker;
 
+//Sends APP Views and Timing information to GA
 function startApp() {
   // Initialize the Analytics service object with the name of your app.
   service = analytics.getService('GA_Debugger');
@@ -42,18 +37,13 @@ function startApp() {
   // screen within the app.
   tracker.sendAppView(document.title);
 
-/*
-  // Record user actions with "sendEvent". Excluding Options Page
-  if( document.getElementById('domain') !== 'null'){
-    tracker.send(appEvent);
-  }
-*/
   // ...send elapsed time since we started timing.
   timing.send();
 
   setupAnalyticsListener();
 }
 
+// Checks to see if tracking consent has been provided
 function initAnalyticsConfig(config) {
 var settings = document.getElementById('settings-loading');
 
@@ -69,38 +59,4 @@ var settings = document.getElementById('settings-loading');
   }
 }
 
-
-/**
- * Adds a filter that captures hits being sent to Google Analytics.
- * Filters are useful for keeping track of what's happening in your app...
- * you can show this info in a debug panel, or log them to the console.
- */
-function setupAnalyticsListener() {
-  // Listen for event hits of the 'Flavor' category, and record them.
-  previous = [];
-  tracker.addFilter(
-      analytics.filters.FilterBuilder.builder().
-          whenHitType(analytics.HitTypes.EVENT).
-          whenValue(analytics.Parameters.EVENT_CATEGORY, 'Flavor').
-          whenValue(analytics.Parameters.EVENT_ACTION, 'Choose').
-          applyFilter(
-              function(hit) {
-                previous.push(
-                    hit.getParameters().get(analytics.Parameters.EVENT_LABEL));
-              }).
-          build());
-}
-/*
-function addButtonListener(button) {
-  button.addEventListener('click', function() {
-    // Another way of sending an Event (using the EventBuilder). This
-    // method gives you more control over the contents of the hit.
-    // E.g. you can add custom dimensions.
-    tracker.send(
-        FLAVOR_EVENT.label(button.id));
-    currentChoice.textContent = button.textContent;
-    previousChoice.textContent = previous.join(', ');
-  });
-}
-*/
 window.onload = startApp;
