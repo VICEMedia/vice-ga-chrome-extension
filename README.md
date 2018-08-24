@@ -14,7 +14,7 @@ Some of the unique features of this chrome extension are...
 - Users can upload their Custom Dimension configuration via Chrome Extensio Options for easier reference.
 
 ## Table of Contents
--[Getting Started](#getting-started)
+- [Getting Started](#getting-started)
   - [Prerequisites and installation](#prerequisites-and-installation)
   - [Notes on internals/approach](#notes-on-internalsapproach)
   - [Options](#options)
@@ -22,20 +22,6 @@ Some of the unique features of this chrome extension are...
 - [Guidelines for Contribution](#guidelines-for-contribution)
 - [Dependencies / Acknowledgements](#dependencies--acknowledgements)
 - [Contact](#contact)
-
-## Table of Contents
-- [Features](#features)
-- [Example](#example)
-- [Architecture](#architecture)
-- [API](#api)
-  - [Reading](#reading)
-  - [Writing](#writing)
-  - [Schema](#reading)
-  - [Metadata](#metadata)
-- [Versioning](#versioning)
-- [Testing](#testing)
-- [Contributing](#contributing)
-
 
 ## Getting Started
 ### Prerequisites and installation
@@ -67,6 +53,7 @@ To make the Popup component update dynamically as network requests are made, the
 │   ├── options.js                    // Chrome Extension Options.js
 │   ├── analytics.js                  // User Tracking 
 │   ├── google-analytics-bundle.js    // Google Analytics Tracking Library
+│   ├── gaConfigSample.js             // Sample Custom Dimension configuration 
 │   └── images                        // image assets - favicon
 └── src
     ├── App.css                        // CSS for the React App
@@ -89,31 +76,32 @@ By default the extension will use generic labels for Custom Dimensions, Custom M
 
 These generic labels can be updated to reflect the actual GA mappings.
 
-1. Go to the file `public/gaConfg.json` and copy the JSON object
-2. Then right click on the Chrome Extension and select the Options setting
 ![Screenshot 5](./assets/readme-screenshot-5.png)
-3. Update the following JSON to meet your Google Analytics Custom Groups, Custom Dimensions, and Custom Metrics.
+
+1. Then right click on the Chrome Extension and select the Options setting
+2. Update the following JSON to meet your Google Analytics Custom Groups, Custom Dimensions, and Custom Metrics.
 
 ```
-    {
-      "UA-XXXXXX-YY":{
-        "contentGroups" :{
-          "cg1":"Article UID",
-          "cg2":"Topics"
-        },
-        "customDimensions" :{
-          "cd1":"Article UID",
-          "cd2":"Topics"
-        },
-        "customMetrics" :{
-          "cm1":"Video Plays - Manual",
-          "cm2":"Video Plays - AutoPlay"
-        }
-      }
+{
+  "UA-XXXXXX-YY":{
+    "contentGroups" :{
+      "cg1":"Article UID",
+      "cg2":"Topics"
+    },
+    "customDimensions" :{
+      "cd1":"Article UID",
+      "cd2":"Topics"
+    },
+    "customMetrics" :{
+      "cm1":"Video Plays - Manual",
+      "cm2":"Video Plays - AutoPlay"
     }
+  }
+}
 ```
+Sample file can be located `public/gaConfigSample.json`
 
-4. Paste the JSON object into the text box and hit save.
+3. Paste the JSON object into the text box and hit save.
 
 
 
