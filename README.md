@@ -8,7 +8,7 @@ Troubleshooting site analytics is an extremely tedious task, especially when you
 
 Some of the unique features of this chrome extension are...
 
-- facilitates Google Analytics Tracking on Google AMP Pages
+- Facilitates Google Analytics Tracking on Google AMP Pages
 - WebRequests are intuitivily grouped based on Google Analytics Tracking IDs and Segment Write Keys
 - Users can Pop-out the Chrome Extension into it's own window for easier troubleshooting
 - Users can upload their Custom Dimension configuration via Chrome Extensio Options for easier reference.
@@ -31,12 +31,12 @@ Some of the unique features of this chrome extension are...
  ``` npm run build ```
 - After the build process is complete, the `build` folder will have been updated.
 - To test your latest changes, within your chrome browser type in `chrome://extensions` in the URL field.
-- Make sure you turn on Developer Mode
+- Make sure you turn on **Developer Mode**
 ![Chrome Extension Developer Mode](./assets/developer_mode.png)
-- The select Load unpacked and select the build folder.
+- The select **Load unpacked** and select the `build` folder.
 
 ### Notes on internals/approach
-The Chrome Extension leverages a combination of Chrome's background script, Popup, and Options components, and requires WebRequest, LocalStorage, and Tabs permissions. 
+The tool leverages Chrome Extension components - Background script, Popup, and Options, and requires WebRequest, LocalStorage, and Tabs permissions. 
 
 To make the Popup component update dynamically as network requests are made, the Popup component is development using React.js
 
