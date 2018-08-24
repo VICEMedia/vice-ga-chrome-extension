@@ -21,6 +21,7 @@
 
 var service, tracker;
 
+//Sends APP Views and Timing information to GA
 function startApp() {
   // Initialize the Analytics service object with the name of your app.
   service = analytics.getService('GA_Debugger');
@@ -36,18 +37,13 @@ function startApp() {
   // screen within the app.
   tracker.sendAppView(document.title);
 
-/*
-  // Record user actions with "sendEvent". Excluding Options Page
-  if( document.getElementById('domain') !== 'null'){
-    tracker.send(appEvent);
-  }
-*/
   // ...send elapsed time since we started timing.
   timing.send();
 
   setupAnalyticsListener();
 }
 
+// Checks to see if tracking consent has been provided
 function initAnalyticsConfig(config) {
 var settings = document.getElementById('settings-loading');
 

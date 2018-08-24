@@ -4,17 +4,29 @@ The Google Analytics and Segment Chrome Extension Debugger is designed to help s
 ![Chrome Extension Demo](./assets/chrome_animation.gif)
 Here is the link to the project in the [Chrome Extension Webstore](https://chrome.google.com/webstore/detail/google-analytics-and-segm/fdagjpflogmjegjmcgfdkdpbboiefdgj)
 
-Troubleshooting site analytics is an extremely tedious task, especially when you are checking multiple events and custom dimensions.  This chrome extension, analyzes the webRequests made from a webpage to Google Analytics and Segment, and displays the webRequests in an intuitive easy to read manner, so users can easily see what calls are being made, and dive deeper into the specific call's metadata if they need to. 
+Troubleshooting site analytics is an extremely tedious task, especially when you are checking multiple events and custom dimensions.  This chrome extension, analyzes the webRequests made from a webpage to Google Analytics and Segment, and displays the webRequests in an easy to read manner, so users can easily see what calls are being made, and dive deeper into the specific call's metadata if they need to. 
 
 Some of the unique features of this chrome extension are...
 
-- Facilities Google Analytics Tracking on Google AMP Pages
+- facilitates Google Analytics Tracking on Google AMP Pages
 - WebRequests are intuitivily grouped based on Google Analytics Tracking IDs and Segment Write Keys
 - Users can Pop-out the Chrome Extension into it's own window for easier troubleshooting
-- Users can upload their Custom Dimension configuration for easier reference.
+- Users can upload their Custom Dimension configuration via Chrome Extensio Options for easier reference.
+
+## Table of Contents
+	- Getting Started
+ 	  - Prerequisites and installation
+ 	  - Notes on internals/approach
+ 	  - Options
+ 	- Versioning
+	- Guidelines for Contribution
+	- Dependencies / Acknowledgements
+	- Contact
+	- License File
+	- Changelog
 
 ## Getting Started
-### Prerequisites, installation
+### Prerequisites and installation
 - The chrome extension is built using "Create React App" framework ([https://github.com/facebook/create-react-app](https://github.com/facebook/create-react-app)).
 - Any changes should be made to the files within the `public` or `src` folders.
 - When you are ready to build, initiate the build process by running
