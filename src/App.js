@@ -9,7 +9,7 @@ import right_arrow from './images/right_arrow.png';
 import pop_window_icon from './images/pop_window_icon.png';
 import {getGAConfig} from "./common/Utils";
 import {unregister} from './registerServiceWorker';
-import gaConfigFile from "./common/gaConfig.json"; //Intenal VICE Config
+import gaConfigFile from "./common/gaConfig.json"; //Intenal VICE Config remove when OSS goes in place also look at line 366
 
 unregister();
 
@@ -152,7 +152,6 @@ class EventContainer extends React.Component {
      if(eventMetadata.writeKey){
        let output = {};
        // Standard Variables
-       // NOTE to add User ID when User ID starts
         output = {
            'Write Key' : eventMetadata.writeKey,
            'Anonymous ID' : eventMetadata.anonymousId,
@@ -350,9 +349,6 @@ class TrafficContainer extends React.Component {
 
       const trafficLog = this.props.traffic;
       const trackingIdLog = TrafficContainer.groupEventsbyID(trafficLog);
-   //   console.log("in traffic Container");
-   //   console.log(trafficLog);
-   //   console.log(trackingIdLog);
 
       //console.log(JSON.stringify(this.props.traffic));
         return (
