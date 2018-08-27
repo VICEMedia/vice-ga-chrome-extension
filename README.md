@@ -56,8 +56,8 @@ To make the Popup component update dynamically as network requests are made, the
 │   ├── gaConfigSample.js             // Sample Custom Dimension configuration 
 │   └── images                        // image assets - favicon
 └── src
-    ├── App.css                        // CSS for the React App
-    ├── App.js                         // JS for the React App 
+    ├── App.css                        // React App CSS
+    ├── App.js                         // React App Main JS
     ├── App.test.js
     ├── index.css
     ├── index.js
@@ -65,7 +65,7 @@ To make the Popup component update dynamically as network requests are made, the
     ├── registerServiceWorker.js
     ├── common
     │	└── Utils.js                    // script to retreive custom dimension mapping
-    └── images							// image assets for Popup
+    └── images							// Popup image assets
 ```
 
 Here is a diagram on what each of the components do
@@ -118,7 +118,7 @@ Contributions, big or small, are welcome. If you have a suggestion for a feature
 ## Dependencies / Acknowledgements
 In building this project, I borrowed heavily from...
 - Building a Chrome Extension Using React - https://medium.com/@gilfink/building-a-chrome-extension-using-react-c5bfe45aaf36
-This project is also built with Create React App - https://github.com/facebook/create-react-app
+- This project is also built with Create React App - https://github.com/facebook/create-react-app
 
 
 
