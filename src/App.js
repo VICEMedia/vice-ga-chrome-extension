@@ -9,7 +9,6 @@ import right_arrow from './images/right_arrow.png';
 import pop_window_icon from './images/pop_window_icon.png';
 import {getGAConfig} from "./common/Utils";
 import {unregister} from './registerServiceWorker';
-import gaConfigFile from "./common/gaConfig.json"; //Intenal VICE Config remove when OSS goes in place also look at line 366
 
 unregister();
 
@@ -363,11 +362,10 @@ class TrafficContainer extends React.Component {
 class App extends React.Component {
     constructor(props) {
         super(props);
-        // gaConfig shoudl be a blank object {} when project goes OSS.
         this.state = {
             loaded: false,
             traffic: {},
-            gaConfig: gaConfigFile,
+            gaConfig: {},
             parentHostname: '',
             manifestVersion: ''
         };
@@ -428,7 +426,7 @@ class App extends React.Component {
                 <img className='App-logo' src={vice_tech_logo} alt="vice_tech_logo" />
               </div>
               <div className='App-Banner'>
-                <span className="App-Title">Google Analytics and Segment Debugger</span><br></br>
+                <span className="App-Title">Google Analytics and Segment Helper</span><br></br>
                 <span className="App-Version">Version {this.state.manifestVersion} - </span>
                 <a className='App-LearnMore' href="https://georgejeng.typeform.com/to/Tm5Vo9" rel="noopener noreferrer" target="_blank">Feedback</a>
               </div>
