@@ -390,7 +390,7 @@ class App extends React.Component {
           var intervalId = setInterval(this.timer.bind(this), 1000);
           this.setState({
               intervalId: intervalId,
-              gaConfig: JSON.parse(config)
+              gaConfig: config ? JSON.parse(config) : {},
           });
 
       });
