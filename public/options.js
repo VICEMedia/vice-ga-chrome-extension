@@ -18,7 +18,7 @@ function save_options() {
 function restore_options() {
   // Use default value color = 'red' and likesColor = true.
   chrome.storage.local.get(['gaConfig'], function(items) {
-    document.getElementById('file_upload').value = items.gaConfig;
+    document.getElementById('file_upload').value = items.gaConfig || '';
   });
 }
 document.addEventListener('DOMContentLoaded', restore_options);
