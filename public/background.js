@@ -138,7 +138,7 @@ function confirmMessage(details) {
 chrome.webRequest.onCompleted.addListener((details) => {
 	var message = confirmMessage(details);
 
-	if (confirmMessage(details)) {
+	if (message) {
 		const { tabId, requestId } = details;
 		if (!tabStorage.hasOwnProperty(tabId)) {
 			return;

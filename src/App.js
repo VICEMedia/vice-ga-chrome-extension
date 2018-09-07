@@ -31,8 +31,7 @@ class CustomDimensionContainer extends React.Component {
         let cdValue = this.props.cd || '';
         cdValue = cdValue.toString();
         const valueLengthLimit = 50;
-       // console.log(cdValue)
-        //{(cdValue.length > 20)?"<span>Show</span>":cdValue}
+
           return (
               <div className='customDimensionsSection'>
               <div className='customDimensions'>
@@ -164,7 +163,6 @@ class EventContainer extends React.Component {
         } else if (eventMetadata.type === 'page' || eventMetadata.type === 'track'){
           Object.assign(output, eventMetadata.properties);
         }
-        //console.log(output);
        return output;
      } else{
        return '';
@@ -232,7 +230,6 @@ class EventContainer extends React.Component {
      var eventLabelOutput = {};
      var eventType = setEventVariable(pixelType, eventMetadata, 't', 'type');
      eventLabelOutput.hitType = upperCaseFirstLetter(eventType);
-     //console.log(JSON.stringify(eventMetadata));
      //Rendering Event Label
          if(eventType ==='event' || eventType ==='track' ){
            var eventCategory =setEventVariable(pixelType, eventMetadata, 'ec', 'properties.category');
@@ -337,7 +334,6 @@ class TrafficContainer extends React.Component {
     static renderTrackingIds(trackingIdLog, gaConfig) {
         if (trackingIdLog) {
             return Object.keys(trackingIdLog).map((key) => {
-               // const {url, requestDuration, status} = trackingIdLog[key];
               return (<TrackingIdContainer eventLog={trackingIdLog[key]} id={key} key={key} gaConfig={gaConfig} />);
             });
         }
@@ -349,7 +345,6 @@ class TrafficContainer extends React.Component {
       const trafficLog = this.props.traffic;
       const trackingIdLog = TrafficContainer.groupEventsbyID(trafficLog);
 
-      //console.log(JSON.stringify(this.props.traffic));
         return (
             <div className = 'trackingIdBuckets'>
                 {TrafficContainer.renderTrackingIds(trackingIdLog, this.props.gaConfig)}
