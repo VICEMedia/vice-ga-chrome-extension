@@ -2,8 +2,8 @@
 The Google Analytics and Segment Helper - Chrome Extension is designed to help site admins troubleshoot Google Analytics and Segment calls on any site.
 
 ![Chrome Extension Demo](./assets/chrome_animation.gif)
-Here is the link to the project in the [Chrome Extension Webstore](https://rebrand.ly/errorb7136)
-Here is the link to our [medium post](https://rebrand.ly/troubae824) that walks through why we built the extension 
+Here is the link to the project in the [Chrome Extension Webstore](https://rebrand.ly/errorb7136)  
+Here is the link to our [medium post](https://rebrand.ly/troubae824) that walks through why we built the extension
 
 Troubleshooting site analytics is an extremely tedious task, especially when you are checking multiple events and custom dimensions.  This chrome extension, analyzes the webRequests made from a webpage to Google Analytics and Segment, and displays the webRequests in an easy to read manner, so users can easily see what calls are being made, and dive deeper into the specific call's metadata if they need to.
 
