@@ -425,7 +425,7 @@ class App extends React.Component {
               <div className='App-Banner'>
                 <span className="App-Title">Google Analytics and Segment Helper</span><br></br>
                 <span className="App-Version">Version {this.state.manifestVersion} - </span>
-                <a className='App-LearnMore' href="https://georgejeng.typeform.com/to/Tm5Vo9" rel="noopener noreferrer" target="_blank">Feedback</a>
+                <a className='App-LearnMore' href="https://rebrand.ly/gadeb3ec4a" rel="noopener noreferrer" target="_blank">Feedback</a>
               </div>
               <div className='App-popout'>
                 <img className='App-Popout-image' src={pop_window_icon} alt="pop_window" onClick={() => this.popWindow()}/>
