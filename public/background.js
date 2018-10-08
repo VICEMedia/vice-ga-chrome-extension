@@ -3,6 +3,7 @@ const tabStorage = {};
 const versionNumber = chrome.runtime.getManifest().version;
 let currentTabId;
 let currentTabUrl;
+let preserveLogFlag;
 
 ///////////////
 // Window and Tab Management
@@ -17,8 +18,10 @@ chrome.tabs.onActivated.addListener((tab) => {
 //Detects window changes
 chrome.windows.onFocusChanged.addListener((windowId) => {
 	chrome.tabs.query({active: true, lastFocusedWindow: true}, function(tabs) {
-		const tabId = tabs ? tabs[0].id : chrome.tabs.TAB_ID_NONE;
-		tabUpdate(tabId);
+		if(tabs.length != 0){
+			const tabId = tabs[0].id ? tabs[0].id : chrome.tabs.TAB_ID_NONE;
+			tabUpdate(tabId);
+		}
 	});
 });
 
@@ -55,14 +58,30 @@ chrome.tabs.onRemoved.addListener((tab) => {
 chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
   if(changeInfo.status == 'loading'){
 		console.log('THIS TAB GOT REFRESHED ' + tabId);
-		tabStorage[tabId].requests = {};
+		if(preserveLogFlag == false ){
+			tabStorage[tabId].requests = {};
+		}
 		updateBadge(tabId);
+		checkPreserveFlag();
   }
 });
 chrome.tabs.onRemoved.addListener(function(tabId,removeInfo){
 	console.log('THIS TAB GOT DELETED ' + tabId);
 	tabStorage[tabId].requests = {};
+	checkPreserveFlag();
 });
+
+/////////////
+// Preserve Log Logic
+////////////////
+function checkPreserveFlag(){
+	chrome.storage.local.get(['preserveLogFlag'], function(items) {
+		  if( typeof items.preserveLogFlag == 'undefined'){
+				preserveLogFlag = false
+			}
+			preserveLogFlag = items.preserveLogFlag;
+	});
+}
 
 ////////////////////////
 // Updates the numbers under the VICE icon
@@ -77,7 +96,6 @@ function updateBadge(tabId){
 	}
 	chrome.browserAction.setBadgeText({text:badgeText});
 }
-
 
 
 
@@ -302,8 +320,6 @@ function parseSegmentPayLoad(queryString) {
 		var requestType;
     var output = new Object();
     var JSONqueryString = JSON.parse(queryString);
-
-		/////WORK ON BELOW
 
     // Identifying Request Type
     if (JSONqueryString.type == 'identify') {
