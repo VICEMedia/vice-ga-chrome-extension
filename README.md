@@ -30,7 +30,7 @@ Some of the unique features of this chrome extension are...
 - The chrome extension is built using "Create React App" framework ([https://github.com/facebook/create-react-app](https://github.com/facebook/create-react-app)).
 - Any changes should be made to the files within the `public` or `src` folders.
 - When you are ready to build, initiate the build process by running
- ``` npm run build ```
+ ```INLINE_RUNTIME_CHUNK=false npm run build ```
 - After the build process is complete, the `build` folder will have been updated.
 - To test your latest changes, within your chrome browser type in `chrome://extensions` in the URL field.
 - Make sure you turn on **Developer Mode**
