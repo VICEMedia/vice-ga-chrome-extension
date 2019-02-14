@@ -4,6 +4,7 @@ const versionNumber = chrome.runtime.getManifest().version;
 let currentTabId;
 let currentTabUrl;
 let preserveLogFlag;
+let urlFilters = {urls: ["*://*.google-analytics.com/*","*://*.segment.io/*",]};
 
 ///////////////
 // Window and Tab Management
@@ -57,8 +58,10 @@ chrome.tabs.onRemoved.addListener((tab) => {
 ////////////////////////////////
 chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
   if(changeInfo.status == 'loading'){
+
 		console.log('THIS TAB GOT REFRESHED ' + tabId);
-		if(preserveLogFlag == false ){
+
+		if(preserveLogFlag == false || typeof preserveLogFlag == 'undefined' ){
 			tabStorage[tabId].requests = {};
 		}
 		updateBadge(tabId);
@@ -77,7 +80,7 @@ chrome.tabs.onRemoved.addListener(function(tabId,removeInfo){
 function checkPreserveFlag(){
 	chrome.storage.local.get(['preserveLogFlag'], function(items) {
 		  if( typeof items.preserveLogFlag == 'undefined'){
-				preserveLogFlag = false
+				preserveLogFlag = false;
 			}
 			preserveLogFlag = items.preserveLogFlag;
 	});
@@ -104,6 +107,7 @@ function updateBadge(tabId){
 ///////////////////
 
 chrome.webRequest.onBeforeRequest.addListener(function(details) {
+
 	var message;
 
     if(details.url.indexOf('www.google-analytics.com') > -1 && details.url.indexOf('/collect') > -1 ){
@@ -115,7 +119,6 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 
 		if(message){
 			const { tabId, requestId } = details;
-
       if (!tabStorage.hasOwnProperty(tabId)) {
           return;
       }
@@ -145,7 +148,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 		//	console.log(tabStorage[tabId].requests[requestId]);
 		}
 
-},{urls: ["<all_urls>"]},["requestBody"]);
+},urlFilters,["requestBody"]);
 
 function confirmMessage(details){
 	var message = false;
@@ -174,7 +177,7 @@ chrome.webRequest.onCompleted.addListener((details) => {
 				status: 'complete'
 		});
 	}
-}, {urls: ["<all_urls>"]});
+}, urlFilters);
 
 chrome.webRequest.onErrorOccurred.addListener((details)=> {
 		var message = confirmMessage(details);
@@ -193,7 +196,7 @@ chrome.webRequest.onErrorOccurred.addListener((details)=> {
 
 	//	console.log(tabStorage[tabId].requests[requestId]);
 	}
-}, {urls: ["<all_urls>"]});
+}, urlFilters);
 
 chrome.webRequest.onBeforeSendHeaders.addListener((details)=> {
 		var message = confirmMessage(details);
@@ -208,7 +211,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener((details)=> {
 
   //  console.log(tabStorage[tabId].requests[requestId]);
   }
-}, {urls: ["<all_urls>"]});
+}, urlFilters);
 
 chrome.webRequest.onSendHeaders.addListener((details)=> {
 		var message = confirmMessage(details);
@@ -222,10 +225,9 @@ chrome.webRequest.onSendHeaders.addListener((details)=> {
 
   //  console.log(tabStorage[tabId].requests[requestId]);
   }
-}, {urls: ["<all_urls>"]});
+}, urlFilters);
 chrome.webRequest.onHeadersReceived.addListener((details)=> {
 		var message = confirmMessage(details);
-
 		if(message){
 		const { tabId, requestId } = details;
     const request = tabStorage[tabId].requests[requestId];
@@ -236,10 +238,9 @@ chrome.webRequest.onHeadersReceived.addListener((details)=> {
 
   //  console.log(tabStorage[tabId].requests[requestId]);
   }
-}, {urls: ["<all_urls>"]});
+}, urlFilters);
 chrome.webRequest.onResponseStarted.addListener((details)=> {
 	var message = confirmMessage(details);
-
 		if(message){
 		const { tabId, requestId } = details;
     const request = tabStorage[tabId].requests[requestId];
@@ -250,7 +251,7 @@ chrome.webRequest.onResponseStarted.addListener((details)=> {
 
   //  console.log(tabStorage[tabId].requests[requestId]);
   }
-}, {urls: ["<all_urls>"]});
+}, urlFilters);
 
 
 /////////////////////

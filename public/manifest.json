@@ -1,7 +1,7 @@
 {
 	"name": "Google Analytics and Segment Helper by VICE",
 	"short_name":"Google Analytics and Segment Helper",
-	"version": "2.0.19",
+	"version": "2.0.20",
 	"description": "The Google Analytics and Segment Helper by VICE provides a visual way to track analytics calls without opening the chrome console!",
 	"manifest_version": 2,
 	"author": "George Jeng - VICE TECH",
@@ -18,8 +18,7 @@
 		"storage",
 		"tabs",
 		"webRequest",
-		"*://*.google-analytics.com/",
-		"*://*.segment.io/"
+		"*://*/*"
 	],
   "options_page": "options.html"
 }
