@@ -236,11 +236,18 @@ class EventContainer extends React.Component {
            var eventAction =setEventVariable(pixelType, eventMetadata, 'ea', 'event');
            var eventLabel =setEventVariable(pixelType, eventMetadata, 'el', 'properties.label');
 
-               eventLabelOutput.label =(<span>
-                               <span className= {`${ (eventCategory === 'undefined')?'statusAmber':''} `}>: {`${eventCategory} `} </span>|
-                               <span className= {`${ (eventAction === 'undefined')?'statusAmber':''} `}> {`${eventAction} `} </span>|
-                               <span className= {`${ (eventLabel === 'undefined')?'statusAmber':''} `}> {`${eventLabel} `} </span>
-                             </span>);
+           if(pixelType === 'Google Analytics'){
+             eventLabelOutput.label =(<span>
+                             <span className= {`${ (eventCategory === 'undefined')?'statusAmber':''} `}>: {`${eventCategory} `} </span>|
+                             <span className= {`${ (eventAction === 'undefined')?'statusAmber':''} `}> {`${eventAction} `} </span>|
+                             <span className= {`${ (eventLabel === 'undefined')?'statusAmber':''} `}> {`${eventLabel} `} </span>
+                           </span>);
+
+           } else{
+             eventLabelOutput.label =(<span>
+                             <span className= {`${ (eventAction === 'undefined')?'statusAmber':''} `}> {`${eventAction} `} </span>
+                           </span>);
+           }
 
          } else {
            var pageTitle =setEventVariable(pixelType, eventMetadata, 'dt', 'context.page.title');

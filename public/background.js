@@ -280,9 +280,12 @@ function getQueryString(details) {
 	if(details.method == 'GET'){
 		var postedString = details.url.substring( details.url.indexOf('?') + 1 );
 	} else if (details.method == 'POST'){
-		var postedString = decodeURIComponent(String.fromCharCode.apply(null,
-	                          new Uint8Array(details.requestBody.raw[0].bytes)));
+
+	  var postedString = String.fromCharCode.apply(null,
+													    new Uint8Array(details.requestBody.raw[0].bytes));
+
 	}
+
 	return postedString;
 }
 
