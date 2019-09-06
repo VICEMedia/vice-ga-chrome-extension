@@ -237,14 +237,23 @@ class EventContainer extends React.Component {
            var eventLabel =setEventVariable(pixelType, eventMetadata, 'el', 'properties.label');
 
            if(pixelType === 'Google Analytics'){
-             eventLabelOutput.label =(<span>
-                             <span className= {`${ (eventCategory === 'undefined')?'statusAmber':''} `}>: {`${eventCategory} `} </span>|
-                             <span className= {`${ (eventAction === 'undefined')?'statusAmber':''} `}> {`${eventAction} `} </span>|
-                             <span className= {`${ (eventLabel === 'undefined')?'statusAmber':''} `}> {`${eventLabel} `} </span>
-                           </span>);
-
-           } else{
-             eventLabelOutput.label =(<span>
+              // If the GA Event Label is the same as the Event Cateogry and Event Action (category | action), then display only Event Label
+              if( eventLabel == eventCategory+' | '+eventAction ){
+                eventLabelOutput.label =(
+                              <span>
+                                <span className= {`${ (eventLabel === 'undefined')?'statusAmber':''} `}> {`${eventLabel} `} </span>
+                              </span>);
+              } else{
+               eventLabelOutput.label =(
+                             <span>
+                               <span className= {`${ (eventCategory === 'undefined')?'statusAmber':''} `}>: {`${eventCategory} `} </span>|
+                               <span className= {`${ (eventAction === 'undefined')?'statusAmber':''} `}> {`${eventAction} `} </span>|
+                               <span className= {`${ (eventLabel === 'undefined')?'statusAmber':''} `}> {`${eventLabel} `} </span>
+                             </span>);
+              }
+           } else if (pixelType === 'Segment'){
+             eventLabelOutput.label =(
+                           <span>
                              <span className= {`${ (eventAction === 'undefined')?'statusAmber':''} `}> {`${eventAction} `} </span>
                            </span>);
            }
