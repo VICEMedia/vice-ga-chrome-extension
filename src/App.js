@@ -9,7 +9,113 @@ import right_arrow from './images/right_arrow.png';
 import pop_window_icon from './images/pop_window_icon.png';
 import {getGAConfig} from "./common/Utils";
 
-class CustomDimensionContainer extends React.Component {
+class SegmentCustomDimensionContainer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+          showMoreFlag: true
+        };
+    }
+    showMoreToggle(){
+      this.setState({
+        showMoreFlag: (this.state.showMoreFlag)?false:true
+      });
+    }
+
+    static renderCustomDimension(eventMetadata) {
+         if (eventMetadata) {
+
+               return Object.keys(eventMetadata).map((key) => {
+                   let value = '';
+                   let objectFlag = false;
+                   if(typeof eventMetadata[key] === 'object' && eventMetadata[key] !== null){
+                     value = JSON.stringify(eventMetadata[key]);
+                     objectFlag = true;
+                   }else{
+                     value = eventMetadata[key];
+                   }
+
+                 // console.log(gaEvent[key]);
+                 return (<SegmentCustomDimensionContainer cd={value} id={key} objectFlag={objectFlag} key={key} />);
+               });
+        }
+         return '';
+     }
+
+    static cdValueParser(objectFlag, valueString){
+      let cdValue = '';
+        if(objectFlag){
+      //    console.log(JSON.parse(this.props.cd))
+          cdValue = JSON.parse(valueString);
+        }else{
+      //    console.log(this.props.cd);
+          cdValue = valueString;
+          if(cdValue == null){
+            cdValue = '';
+           }
+          cdValue = cdValue.toString();
+        }
+
+
+      return cdValue;
+    }
+    static renderRouteParser(objectFlag, valueLengthLimit, cdValue){
+      let route = 'short';
+      if(objectFlag == false && cdValue.length <= valueLengthLimit){
+        route = 'short';
+      }
+      if(objectFlag == false && cdValue.length > valueLengthLimit){
+        route = 'long';
+      }
+      if(objectFlag == true){
+        route = 'object';
+      }
+      return route;
+    }
+
+
+    render() {
+      if(this.props.id){
+        const cdKey = this.props.id;
+        let cdValue = SegmentCustomDimensionContainer.cdValueParser(this.props.objectFlag, this.props.cd);
+        const valueLengthLimit = 50;
+      //  console.log(cdValue);
+        let renderRoute = SegmentCustomDimensionContainer.renderRouteParser(this.props.objectFlag, valueLengthLimit, cdValue);
+      //  console.log(renderRoute);
+
+          return (
+            // Three rendering paths.  1) just plan txt 2.) a show more / hide button 3.) Nested Object
+
+              <div className='customDimensionsSection'>
+                <div className='customDimensions'>
+
+                  <span className={(renderRoute =='object')?'cdObjectLabel':'cdLabel'}> {cdKey}  </span> :
+                  {(renderRoute == 'short') && <span className='cdValue'> {cdValue} </span>}
+                  {(renderRoute == 'long' && this.state.showMoreFlag === true ) && <span onClick={()=>this.showMoreToggle()} className='showMore'>Show More</span>}
+                  {(renderRoute == 'long'  && this.state.showMoreFlag === false ) &&
+                  <span>
+                    <span onClick={()=>this.showMoreToggle()} className='showMore'>Hide</span>
+                    <div className='customDimensionLongText'>  {cdValue} </div>
+                  </span>
+                  }
+                  {(renderRoute == 'object' && cdKey == 'Properties Object') && SegmentCustomDimensionContainer.renderCustomDimension(cdValue) }
+                  {(renderRoute == 'object' && cdKey != 'Properties Object' && this.state.showMoreFlag === true) && <span onClick={()=>this.showMoreToggle()} className='showMore'>Show More</span>}
+                  {(renderRoute == 'object' && cdKey != 'Properties Object' && this.state.showMoreFlag === false) &&
+                    <span>
+                      <span onClick={()=>this.showMoreToggle()} className='showMore'>Hide</span>
+                      <div className='customDimensionLongText'>  {SegmentCustomDimensionContainer.renderCustomDimension(cdValue)} </div>
+                    </span>
+                  }
+
+
+                </div>
+              </div>
+          );
+      }
+    }
+}
+
+class GACustomDimensionContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -62,7 +168,7 @@ class EventContainer extends React.Component {
             class: 'customDimensionClose'
         };
     }
-  // Handles The Show and Hide Status of the Custom Dimensions
+   // Handles The Show and Hide Status of the Custom Dimensions
     handleClick(){
       if(this.state.open) {
         this.setState({
@@ -76,12 +182,33 @@ class EventContainer extends React.Component {
         });
       }
     }
-     static renderCustomDimension(gaEvent) {
+   static renderCustomDimension(pixelType, gaEvent) {
         if (gaEvent) {
-            return Object.keys(gaEvent).map((key) => {
-               // const {url, requestDuration, status} = trackingIdLog[key];
-              return (<CustomDimensionContainer cd={gaEvent[key]} id={key} key={key} />);
-            });
+          // Rendering Logic for Google Analytics Pixels
+            if(pixelType === 'Google Analytics'){
+              return Object.keys(gaEvent).map((key) => {
+                 // const {url, requestDuration, status} = trackingIdLog[key];
+                return (<GACustomDimensionContainer cd={gaEvent[key]} id={key} key={key} />);
+              });
+            }
+           // Rendering Logic for Segment Pixels
+            if(pixelType === 'Segment'){
+              return Object.keys(gaEvent).map((key) => {
+                  let value = '';
+                  let objectFlag = false;
+                  if(typeof gaEvent[key] === 'object' && gaEvent[key] !== null){
+
+                    value = JSON.stringify(gaEvent[key]);
+                    objectFlag = true;
+                  }else{
+                    value = gaEvent[key];
+                  }
+
+                // console.log(gaEvent[key]);
+                return (<SegmentCustomDimensionContainer cd={value} id={key} objectFlag={objectFlag} key={key} />);
+              });
+            }
+
         }
         return '';
     }
@@ -151,6 +278,7 @@ class EventContainer extends React.Component {
         output = {
            'Write Key' : eventMetadata.writeKey,
            'Anonymous ID' : eventMetadata.anonymousId,
+           'User ID' : eventMetadata.userId,
            'Title' : eventMetadata.context.page.title,
            'Location' : eventMetadata.context.page.url,
            'Page' : eventMetadata.context.page.path,
@@ -159,9 +287,12 @@ class EventContainer extends React.Component {
         if (eventMetadata.type === 'identify'){
           Object.assign(output, eventMetadata.traits);
         } else if (eventMetadata.type === 'page' || eventMetadata.type === 'track'){
-          Object.assign(output, eventMetadata.properties);
+
+          Object.assign(output, {'Integrations Object': eventMetadata.integrations});
+          Object.assign(output, {'Context Object': eventMetadata.context});
+          Object.assign(output, {'Properties Object': eventMetadata.properties});
         }
-        //console.log(output);
+      //  console.log(output);
        return output;
      } else{
        return '';
@@ -173,7 +304,7 @@ class EventContainer extends React.Component {
      if(pixelType === 'Google Analytics'){
       output = EventContainer.gaCustomDimensions(eventMetadata, gaConfig);
     } else if (pixelType === 'Segment'){
-      output =EventContainer.segmentCustomDimensions(eventMetadata);
+      output = EventContainer.segmentCustomDimensions(eventMetadata);
     }
      return output;
    }
@@ -221,10 +352,9 @@ class EventContainer extends React.Component {
       }
       return output;
      }
-     function upperCaseFirstLetter(string)
-    {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
+     function upperCaseFirstLetter(string){
+          return string.charAt(0).toUpperCase() + string.slice(1);
+      }
 
      var eventLabelOutput = {};
      var eventType = setEventVariable(pixelType, eventMetadata, 't', 'type');
@@ -286,7 +416,7 @@ class EventContainer extends React.Component {
                   </span>
                   {(eventLabel.label.length > eventLabelLengthLimit)?eventLabel.label.substring(0,eventLabelLengthLimit)+'...':eventLabel.label}
                 </div>
-            <div className={this.state.class}>{EventContainer.renderCustomDimension(structuredEventMetadata)}</div>
+            <div className={this.state.class}>{EventContainer.renderCustomDimension(pixelType, structuredEventMetadata)}</div>
             </div>
         );
     }
@@ -432,6 +562,7 @@ class App extends React.Component {
     }
     render() {
       let gaIndex = this.state.traffic.gaTrackingIdIndex || '';
+      //console.log(this.state.traffic);
         return (
           <div className="App">
             <header className="App-Header">

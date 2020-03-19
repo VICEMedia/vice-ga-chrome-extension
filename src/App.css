@@ -143,6 +143,10 @@ body{
   font-weight: normal;
   color: rgb(137, 143, 156);
 }
+.cdObjectLabel{
+  font-weight: bold;
+  color: rgb(137, 143, 156);
+}
 .cdValue{
   font-weight: normal;
 }

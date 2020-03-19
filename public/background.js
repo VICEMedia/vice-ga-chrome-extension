@@ -87,7 +87,7 @@ function checkPreserveFlag(){
 }
 
 ////////////////////////
-// Updates the numbers under the VICE icon
+// Updates the numbers under the VICE badge icon
 ///////////////////////////
 function updateBadge(tabId){
 	var badgeText = String(Object.keys(tabStorage[tabId].requests).length);
@@ -327,7 +327,7 @@ function parseSegmentPayLoad(queryString) {
 
     // Identifying Request Type
     if (JSONqueryString.type == 'identify') {
-	      requestType = 'Identify';
+	        requestType = 'Identify';
 		}else if (JSONqueryString.type == 'track') {
 		    requestType = 'Track';
 		}else if (JSONqueryString.type == 'page') {
