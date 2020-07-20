@@ -2,10 +2,13 @@
 function save_options() {
   var configFile = document.getElementById('file_upload').value;
   var preserveLog = document.getElementById('preserve_log').checked;
-  console.log(preserveLog);
+  var customHost = document.getElementById('custom_host').value;
+
+  console.log(customHost);
   chrome.storage.local.set({
     gaConfig: configFile,
-    preserveLogFlag: preserveLog
+    preserveLogFlag: preserveLog,
+    customHost: customHost
   }, function() {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
@@ -26,6 +29,12 @@ function restore_options() {
   chrome.storage.local.get(['preserveLogFlag'], function(items) {
     document.getElementById('preserve_log').checked = items.preserveLogFlag;
   });
+  chrome.storage.local.get(['customHost'], function(items) {
+    if(typeof items.customHost !== 'undefined'){
+        document.getElementById('custom_host').value = items.customHost;
+    }
+  });
+
 }
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('save').addEventListener('click',

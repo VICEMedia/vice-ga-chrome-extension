@@ -4,7 +4,8 @@ const versionNumber = chrome.runtime.getManifest().version;
 let currentTabId;
 let currentTabUrl;
 let preserveLogFlag;
-let urlFilters = {urls: ["*://*.google-analytics.com/*","*://*.segment.io/*",]};
+let customSegmentDomain = "";
+let urlFilters = {urls: ["*://*/*"]};
 
 ///////////////
 // Window and Tab Management
@@ -56,13 +57,16 @@ chrome.tabs.onRemoved.addListener((tab) => {
 /////////////////////////////
 //  Tab Refresh Handler / Listener
 ////////////////////////////////
+
 chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
   if(changeInfo.status == 'loading'){
 
 		console.log('THIS TAB GOT REFRESHED ' + tabId);
 
 		if(preserveLogFlag == false || typeof preserveLogFlag == 'undefined' ){
-			tabStorage[tabId].requests = {};
+			if(typeof tabStorage[tabId] !== 'undefined' ){
+				tabStorage[tabId].requests = {};
+			}
 		}
 		updateBadge(tabId);
 		checkPreserveFlag();
@@ -70,7 +74,9 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
 });
 chrome.tabs.onRemoved.addListener(function(tabId,removeInfo){
 	console.log('THIS TAB GOT DELETED ' + tabId);
-	tabStorage[tabId].requests = {};
+	if(typeof tabStorage[tabId] !== 'undefined' ){
+		tabStorage[tabId].requests = {};
+	}
 	checkPreserveFlag();
 });
 
@@ -86,11 +92,13 @@ function checkPreserveFlag(){
 	});
 }
 
+
 ////////////////////////
 // Updates the numbers under the VICE badge icon
 ///////////////////////////
 function updateBadge(tabId){
 	var badgeText = String(Object.keys(tabStorage[tabId].requests).length);
+	console.log(tabStorage[tabId]);
 	if(badgeText == '0'){
 		badgeText = '';
 		chrome.browserAction.setIcon({'path':'images/grey_icon.png'});
@@ -101,18 +109,37 @@ function updateBadge(tabId){
 }
 
 
+/////////////
+// Custom Hostname Logic
+////////////////
+chrome.runtime.onInstalled.addListener(function() {
+	checkCustomSegmentHost();
+});
+chrome.storage.onChanged.addListener(function(changes, namespace) {
+	checkCustomSegmentHost();
+});
+
+function checkCustomSegmentHost(){
+	chrome.storage.local.get(['customHost'], function(items) {
+		  if( typeof items.customHost !== 'undefined'){
+				customSegmentDomain = items.customHost;
+			}
+	});
+}
+
 
 ////////////////
 // Network Listeners
 ///////////////////
 
 chrome.webRequest.onBeforeRequest.addListener(function(details) {
-
 	var message;
 
     if(details.url.indexOf('www.google-analytics.com') > -1 && details.url.indexOf('/collect') > -1 ){
 			message = parseGAQueryString(getQueryString(details));
 		}	else if(details.url.indexOf('segment.io') > -1 ){
+			message = parseSegmentPayLoad(getQueryString(details));
+		} else if(details.url.indexOf(customSegmentDomain) > -1 ){
 			message = parseSegmentPayLoad(getQueryString(details));
 		};
 
@@ -156,6 +183,8 @@ function confirmMessage(details){
 		message = true;
 	}	else if(details.url.indexOf('segment.io') > -1 ){
 		message = true;
+	} else if(details.url.indexOf(customSegmentDomain) > -1 ){
+		message = true;
 	}
 	return message;
 }
@@ -188,12 +217,13 @@ chrome.webRequest.onErrorOccurred.addListener((details)=> {
 				return;
 		}
 
-		const request = tabStorage[tabId].requests[requestId];
-		Object.assign(request, {
-				endTime: details.timeStamp,
-				status: 'error',
-		});
-
+		if(typeof tabStorage[tabId] !== 'undefined' ){
+			const request = tabStorage[tabId].requests[requestId];
+			Object.assign(request, {
+					endTime: details.timeStamp,
+					status: 'error',
+			});
+		}
 	//	console.log(tabStorage[tabId].requests[requestId]);
 	}
 }, urlFilters);
@@ -203,12 +233,13 @@ chrome.webRequest.onBeforeSendHeaders.addListener((details)=> {
 
 		if(message){
 		const { tabId, requestId } = details;
-    const request = tabStorage[tabId].requests[requestId];
-    Object.assign(request, {
-        endTime: details.timeStamp,
-        status: 'onBeforeSendHeaders',
-    });
-
+		if(typeof tabStorage[tabId] !== 'undefined' ){
+	    const request = tabStorage[tabId].requests[requestId];
+	    Object.assign(request, {
+	        endTime: details.timeStamp,
+	        status: 'onBeforeSendHeaders',
+	    });
+		}
   //  console.log(tabStorage[tabId].requests[requestId]);
   }
 }, urlFilters);
@@ -217,11 +248,13 @@ chrome.webRequest.onSendHeaders.addListener((details)=> {
 		var message = confirmMessage(details);
 		if(message){
 		const { tabId, requestId } = details;
-    const request = tabStorage[tabId].requests[requestId];
-    Object.assign(request, {
-        endTime: details.timeStamp,
-        status: 'onSendHeaders',
-    });
+		if(typeof tabStorage[tabId] !== 'undefined' ){
+	    const request = tabStorage[tabId].requests[requestId];
+	    Object.assign(request, {
+	        endTime: details.timeStamp,
+	        status: 'onSendHeaders',
+	    });
+		}
 
   //  console.log(tabStorage[tabId].requests[requestId]);
   }
@@ -230,12 +263,14 @@ chrome.webRequest.onHeadersReceived.addListener((details)=> {
 		var message = confirmMessage(details);
 		if(message){
 		const { tabId, requestId } = details;
-    const request = tabStorage[tabId].requests[requestId];
-    Object.assign(request, {
-        endTime: details.timeStamp,
-        status: 'onHeadersReceived',
-    });
 
+		if(typeof tabStorage[tabId] !== 'undefined' ){
+	    const request = tabStorage[tabId].requests[requestId];
+	    Object.assign(request, {
+	        endTime: details.timeStamp,
+	        status: 'onHeadersReceived',
+	    });
+		}
   //  console.log(tabStorage[tabId].requests[requestId]);
   }
 }, urlFilters);
@@ -243,12 +278,13 @@ chrome.webRequest.onResponseStarted.addListener((details)=> {
 	var message = confirmMessage(details);
 		if(message){
 		const { tabId, requestId } = details;
-    const request = tabStorage[tabId].requests[requestId];
-    Object.assign(request, {
-        endTime: details.timeStamp,
-        status: 'onResponseStarted',
-    });
-
+		if(typeof tabStorage[tabId] !== 'undefined' ){
+	    const request = tabStorage[tabId].requests[requestId];
+	    Object.assign(request, {
+	        endTime: details.timeStamp,
+	        status: 'onResponseStarted',
+	    });
+		}
   //  console.log(tabStorage[tabId].requests[requestId]);
   }
 }, urlFilters);
